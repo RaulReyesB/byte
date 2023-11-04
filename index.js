@@ -5,16 +5,13 @@ import userRoutes from './routes/userRoutes.js';
 // Instancuamos el modulo express de la libreria para definir el servidor que atendera las peticiones 
 const app = express()
 
-app.get('/', function(req, res){
-  res.json('Hola mundo en express')
-});
-
-//Agregar y configurar el TemolateEngine
+//Habilitando PUG
+//SET es para agregar configuracion 
 app.set('view engine', 'pug')
-app.set('views', 'src/views')
+app.set('views', './views')
 
 //Definimos la carpeta para los recursos Public
-app.use(express.static('./public'))
+app.use(express.static('public'))
 //Permitimos la lectura de datos atraves de los elementos HTML
 app.use(express.urlencoded({extended:false}))
 
@@ -25,3 +22,4 @@ app.listen(port, () => {
 
 app.use('/', generalRoutes)
 app.use('/login', userRoutes)
+

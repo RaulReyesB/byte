@@ -1,14 +1,10 @@
 import express, {Router} from 'express'
+import { formularioLogin,formularioOlvidoContra,formularioRegistro } from '../controller/userControllers.js';
 
 const router = express.Router();
 
-router.get("/")
-router.get("/register")
-router.get("/forgot-password",)
-router.post("/register")
-
-router.get("/login/confirm/:token")
-
-router.post("/login/forgot-password")
+router.get("/", formularioLogin);
+router.get("/register", formularioRegistro);
+router.get("/forgot-password",formularioOlvidoContra);
 
 export default router;
