@@ -22,6 +22,11 @@ const formularioOlvidoContra = (request, response) =>{
   })
 }
 
+const insertUser = async(request,response) =>{
+  await check("name").notEmpty().withMessage("This field is REQUIRED: NAME").run(request)
+
+}
+
 export {
   formularioLogin,
   formularioRegistro,

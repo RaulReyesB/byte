@@ -5,21 +5,21 @@ import db from '../config/db.js'; // Importa la instancia de Sequelize ya config
 
 const TbbItinerario = db.define("tbb_itinerario", {
     destino: {
-      type: Sequelize.STRING, // Tipo de datos para el destino (cadena de texto)
+      type: DataTypes.STRING, // Tipo de datos para el destino (cadena de texto)
       allowNull: false, // El destino no puede ser nulo
     },
     horas: {
-      type: Sequelize.INTEGER, // Tipo de datos para las horas (entero)
+      type: DataTypes.INTEGER, // Tipo de datos para las horas (entero)
       allowNull: false, // Las horas no pueden ser nulas
     },
     flexibilidad: {
-      type: Sequelize.STRING, // Tipo de datos para la flexibilidad (cadena de texto)
+      type: DataTypes.STRING, // Tipo de datos para la flexibilidad (cadena de texto)
     },
     recomendaciones: {
-      type: Sequelize.TEXT, // Tipo de datos para las recomendaciones (texto largo)
+      type: DataTypes.TEXT, // Tipo de datos para las recomendaciones (texto largo)
     },
     duración: {
-      type: Sequelize.INTEGER, // Tipo de datos para la duración (entero)
+      type: DataTypes.INTEGER, // Tipo de datos para la duración (entero)
       allowNull: false, // La duración no puede ser nula
     },
   });
