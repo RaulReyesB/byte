@@ -29,6 +29,5 @@ const TbbAsiento = db.define("tbb_asiento", {
     // Opciones adicionales del modelo, si las necesitas.
 });
 
-  
 // Exporta el modelo "TbbAsiento" para que pueda ser utilizado en otros archivos.
 export default TbbAsiento;
