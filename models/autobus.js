@@ -1,5 +1,6 @@
 // Importa los módulos necesarios.
-import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
+import { DataTypes } from "sequelize";
+import Sequelize from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
 import db from '../config/db.js'; // Importa la instancia de DataTypes ya configurada.
 
 

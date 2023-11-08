@@ -1,9 +1,27 @@
 import express from "express";
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import db from './config/db.js';// Instancuamos el modulo express de la libreria para definir el servidor que atendera las peticiones 
+import User from "./models/User.js";
+import TbbAsiento from "./models/asiento.js";
+import Tbbautobus from "./models/autobus.js";
+import Tbbempleado from "./models/empleado.js";
+import Tbbitinerario from "./models/itinerario.js";
+import Tbbpersona from "./models/persona.js";
+import Tbbreservacion from "./models/resevacion.js";
+import Tbbruta from "./models/ruta.js";
+import TbbUbicacion from "./models/ubicacion.js";
 
-// Instancuamos el modulo express de la libreria para definir el servidor que atendera las peticiones 
 const app = express()
+
+// Implementacion de la bd atravez de un trycatch
+try {
+  await db.authenticate();
+  await db.sync({});
+  console.log("Conexion a la Base de Datos exitosa"); 
+} catch (error) {
+   console.log(error);
+}
 
 //Habilitando PUG
 //SET es para agregar configuracion 

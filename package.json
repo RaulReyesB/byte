@@ -4,7 +4,7 @@
   "description": "Este proyecto será desarrollado con Node, Express, Sequelize, PUG, Tailwind, Leaflet, consistira en realizar un sistema web que permita la publicacion de compra de boletos de un autobus y saber su ruta",
   "main": "index.js",
   "type": "module",
-  "scripts": {    
+  "scripts": {
     "start": "node ./index.js",
     "server": "nodemon index.js",
     "css": "postcss public/css/tailwind.css -o public/css/app.css  --watch",
@@ -38,6 +38,7 @@
     "tailwindcss": "^3.3.5"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
     "dotenv": "^16.3.1",
     "express-validator": "^7.0.1",

@@ -3,7 +3,7 @@ import db from '../config/db.js';
 import bcrypt from "bcrypt";
 
 
-const TbbUser = db.define("tbb_users",
+const User = db.define("tbb_users",
   {
     name: {
       type: DataTypes.STRING(255),
@@ -40,8 +40,6 @@ const TbbUser = db.define("tbb_users",
   }
 );
 // compara contraseñas por medio del hasing 
-User.prototype.verifiedPassword = (password) => {
-  return bcrypt.compareSync(password, this.password);
-}
 
-export default TbbUserUser
+
+export default User
