@@ -1,21 +1,8 @@
-doctype html
-html(lang="es")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    //La forma de agregar una variable a el titulo es #{} ya que de otra forma no sera aceptado
-    title Byte Bus | #{page}
-    link(rel="stylesheet" href="/css/app.css")
-  body.min-h-screen.bg-bitterr
-    main
-      //TODO:barra de navegarcion 
-      header
-        nav.bg-blue-500.text-white.py-2
-          div.flex.items-center.justify-between.max-w-5xl.mx-auto
-            div.logo
-              img(BYTE_BUS="public/img/logo.png" alt="")
-            a(href="/login" class="ml-4 hover:bg-blue-900 hover:text-yellow-300") Iniciar sesion
-            a(href="#" class="ml-4 hover:bg-blue-900 hover:text-yellow-300") Inicio
-            a(href="#" class="ml-4 hover:bg-blue-900 hover:text-yellow-300") Viajes
-            a(href="#" class="ml-4 hover:bg-blue-900 hover:text-yellow-300") Ayuda
-            block content
+header(class="bg-azul p-4")
+  div(class="container flex mx-auto justify-between items-center")
+    h1(class="text-salmon text-2xl font-extrabold text-center") Real 
+      span(class="font-normal text-white") Estate
+    nav(class="flex gap-3 text-white my-5 text-sm md:flex md:items-center font-bold ")
+      a(href="" class="bg-azul-300 py-2 px-10 rounded-full hover:bg-salmon hover:scale-105 shadow-lg shadow-gray-600/80 activate:scale-95") Properties 
+      a(href="" class="bg-azul-300 py-2 px-10 rounded-full hover:bg-salmon hover:scale-105 shadow-lg shadow-gray-600/80 activate:scale-95") Profile
+      a(href="" class="bg-azul-300 py-2 px-10 rounded-full hover:bg-salmon hover:scale-105 shadow-lg shadow-gray-600/80 activate:scale-95") Logout
