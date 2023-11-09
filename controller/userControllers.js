@@ -32,6 +32,9 @@ const tiket = (request, response) => {
 const insertUser = async (request, response) => {
   await check("name").notEmpty().withMessage("This field is REQUIRED: NAME").run(request)
 
+  await check("email").notEmpty().withMessage("This field is REQUIRED: EMAIL").run(request)
+
+  await check("password").notEmpty().withMessage("This field is REQUIRED: PASSWORD").run(request)
 }
 
 export {
