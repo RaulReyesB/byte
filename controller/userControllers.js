@@ -10,19 +10,26 @@ const formularioLogin = (request, response) => {
   })
 }
 
-const formularioRegistro = (request, response) =>{
-  response.render('auth/register.pug',{
+const formularioRegistro = (request, response) => {
+  response.render('auth/register.pug', {
     page: 'Nueva cuenta'
   })
 }
 
-const formularioOlvidoContra = (request, response) =>{
-  response.render('auth/forgot-password.pug',{
+const formularioOlvidoContra = (request, response) => {
+  response.render('auth/forgot-password.pug', {
     page: 'Olvide Contraseña'
   })
 }
 
-const insertUser = async(request,response) =>{
+const tiket = (request, response) => {
+  response.render('auth/tiket.pug', {
+    page: tiket
+  })
+}
+
+
+const insertUser = async (request, response) => {
   await check("name").notEmpty().withMessage("This field is REQUIRED: NAME").run(request)
 
 }
@@ -30,5 +37,6 @@ const insertUser = async(request,response) =>{
 export {
   formularioLogin,
   formularioRegistro,
-  formularioOlvidoContra
+  formularioOlvidoContra,
+  tiket
 }
