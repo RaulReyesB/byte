@@ -5,6 +5,6 @@ import express, { response } from 'express'
 const router = express.Router();
 
 router.get('/', (request, response) => response.render("./layout/index.pug", {page:"Home"}))
-router.get("/Inicio", (request, response) => response.render("./auth/Inicio", {page: "Inicio"}))
+router.get("/Inicio", (request, response) => response.render("./auth/Inicio" ,{page: "Inicio", showHeader:true}))
 
 export default router;
