@@ -19,9 +19,6 @@ const TbbPersona = db.define("tbb_persona", {
     edad: {
       type: DataTypes.INTEGER, // Tipo de datos para la edad (entero)
     },
-    fechaNacimiento: {
-      type: DataTypes.DATE, // Tipo de datos para la fecha de nacimiento (fecha y hora)
-    },
     genero: {
       type: DataTypes.STRING, // Tipo de datos para el género (cadena de texto)
     },

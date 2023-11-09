@@ -24,8 +24,18 @@ block content
                 form.space-y-5(action="/login/register" method="POST" novalidate)
                     input(type="hidden" name="_csrf" value=csrfToken)
                     div
-                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Name 
-                        input#name.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Username" name="name" value=user ? user.name : '' required)
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Nombre 
+                        input#name.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Nombre" name="name" value=user ? user.name : '' required)
+
+                    div
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Apellido paterno  
+                        input#apat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido paterno" name="apat" value=user ? user.apellidoPaterno : '' required)
+
+                    div
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Apellido materno
+                        input#amat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido materno" name="amat" value=user ? user.apellidoMaterno : '' required)
+
+                    
 
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Email:
