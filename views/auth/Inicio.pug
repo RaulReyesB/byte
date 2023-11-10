@@ -1,4 +1,25 @@
 extends ../layout/index
 
 block content 
-  div(class="h-20 mb-10")
+    div(class="h-96 bg-red-600 mt-0")
+      div(class="w-full h-full flex justify-center items-center")
+        img(src='/public/img/bus1.jpg' class="w-full h-full")
+        img(src='/public/img/bus2.jpg' class="w-full h-full")
+        img(src='/public/img/bus3.jpg' class="w-full h-full")
+        img(src='/public/img/bus4.jpg' class="w-full h-full")
+      div(class="w-auto h-auto flex justify-center items-center mt--80")
+        form(class="h-96 w-1/2 bg-azul-rey p-5 rounded-2xl ")
+          div(class="mt-5")
+            input#origen.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Origen" name="origen")
+          div(class="mt-5")
+              input#Destino.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Destino" name="Destino" )
+          div(class="mt-5")
+            input#fecha_salida.w-80.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-6.ml-6(type="date")(placeholder="Fecha Salida" name="fecha_salida" )
+            input#fecha_regreso.w-80.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="fecha_regreso" name="fecha_regreso" type="date")
+          div(class="mt-5")
+            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer" type="submit" value="Buscar")
+          div(class="flex justify-between items-center")
+            img(src='/public/icons/paypal.png' class="mt-2 w-20 h-18")
+            img(src='/public/icons/visa.png' class="mt-2 w-20 h-18")
+            img(src='/public/icons/card.png' class="mt-2 w-20 h-18")
+

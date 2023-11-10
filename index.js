@@ -11,6 +11,7 @@ import Tbbpersona from "./models/persona.js";
 import Tbbreservacion from "./models/resevacion.js";
 import Tbbruta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
+import path from "path";
 
 const app = express()
 
@@ -18,9 +19,9 @@ const app = express()
 try {
   await db.authenticate();
   await db.sync({});
-  console.log("Conexion a la Base de Datos exitosa"); 
+  console.log("Conexion a la Base de Datos exitosa");
 } catch (error) {
-   console.log(error);
+  console.log(error);
 }
 
 //Habilitando PUG
@@ -28,10 +29,12 @@ try {
 app.set('view engine', 'pug')
 app.set('views', './views')
 
+app.use("/public", express.static(path.join('public')));
+
 //Definimos la carpeta para los recursos Public
 app.use(express.static('public'))
 //Permitimos la lectura de datos atraves de los elementos HTML
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 
 const port = 3000; //Definimos el puerto 64400 puertos mtb 1024 - 50
 app.listen(port, () => {
