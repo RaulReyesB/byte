@@ -1,24 +1,36 @@
 extends ../layout/index
 
 block content 
-    div(class="h-96 bg-azul-rey mt-0 w-full")
+    div(class=" bg-azul-rey h-96 mt-0 w-full")
       div(class="h-full flex justify-center items-center")
         img(src='/public/img/bus1.jpg' class=" h-full w-full")
         img(src='/public/img/bus2.jpg' class=" h-full w-full")
         img(src='/public/img/bus3.jpg' class=" h-full w-full")
-      div(class="w-auto h-auto flex justify-center items-center mb--80")
-        form(class="h-96 w-1/2 bg-azul-rey p-5 rounded-2xl ")
-          div(class="mt-5")
-            input#origen.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Origen" name="origen")
-          div(class="mt-5")
-              input#Destino.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Destino" name="Destino" )
-          div(class="mt-5")
-            input#fecha_salida.w-80.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-6.ml-6(type="date")(placeholder="Fecha Salida" name="fecha_salida" )
-            input#fecha_regreso.w-80.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="fecha_regreso" name="fecha_regreso" type="date")
-          div(class="mt-5")
-            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer" type="submit" value="Buscar")
-          div(class="flex justify-between items-center")
+      div(class="w-auto h-auto flex justify-center items-center -my-52")
+        form(class="h-1/2 w-full bg-black p-5 rounded-2xl bg-opacity-60")
+          div(class="mt-5 w-full flex justify-center items-center")
+            input#origen.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white.mr-1.ml-1(class="md:w-60" placeholder="Origen" name="origen")
+            input#Destino.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white.mr-1.ml-1(class="md:w-60" placeholder="Destino" name="Destino" )
+            input#fecha_salida.px-3.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-1.ml-1(class="md:w-60" type="date")(placeholder="Fecha Salida" name="fecha_salida" )
+        
+            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Buscar")
+          div(class="flex justify-evenly items-center")
             img(src='/public/icons/paypal.png' class="mt-2 w-20 h-18")
             img(src='/public/icons/visa.png' class="mt-2 w-20 h-18")
             img(src='/public/icons/card.png' class="mt-2 w-20 h-18")
-
+    section 
+      h2.text-center.text-gray-600.font-bold.block.text-3xl.uppercase.mt-10 COMPRA TUS BOLETAS Y VIAJA <br>CON  BYTE - BUS
+      p.text-center.text-gray-600.block.uppercase.mt-8 Byte-Bus es una línea de autobuses con gran cobertura terrestre en México. <br>Comenzó operaciones en 2010 y desde entonces recorremos junto a ti el centro, bajó y norte de la república 
+      h2.text-center.text-gray-600.font-bold.block.text-3xl.uppercase.mt-10 CONOCE LAS AMENIDADES Y SERVICIOS DE Byte - Bus
+      p.text-center.text-gray-600.block.uppercase.mt-8 Los autobuses de Byte - Bus ofrecen amenidades para tener un viaje comodo y seguro, entre ellas, asientos <br> reclinables, wi-fi, cinturones de seguridad, aire acondicionado y entretenimiento.
+    div(class="bg-azul-rey w-full h-10 mt-5 ")
+    h2.text-center.text-black.font-bold.block.text-3xl.uppercase.mt-8.mb-10 Viajes Recomendados
+    section(class="flex justify-evenly items-center w-full h-80 mb-20  ")
+      div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
+        img(src="/public/img/Pachuca.jpg",class="h-40 w-full" alt="")
+      div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
+        img(src="/public/img/Puebla.jpg",class="h-40 w-full" alt="")
+      div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
+        img(src="/public/img/queretaro.jpg" class="h-40 w-full", alt="")
+    div(class="flex items-center justify-center")
+      input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Ver mas.")
