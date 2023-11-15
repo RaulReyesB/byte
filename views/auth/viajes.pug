@@ -1,0 +1,17 @@
+extends ../layout/index
+
+block content
+    section(class="flex-column justify-evenly items-center w-full h-90 mb-20")
+      form(class="h-1/2 w-1/2 bg-azul-rey p-5 rounded-2xl bg-opacity-60")
+          div(class="mt-5 w-auto ")
+            input#origen.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white.mr-1.ml-1(class="md:w-96 " placeholder="Origen" name="origen")
+            input#destino.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white.mr-1.ml-1(class="md:w-96 mt-5" placeholder="Destino" name="Destino" )
+            br
+            input#fecha_salida.px-3.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-1.ml-1(class="md:w-60 mt-5" type="date")(placeholder="Fecha Salida" name="fecha_salida" )
+            input#fecha_salida.px-3.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-1.ml-1(class="md:w-60 mt-5" type="date")(placeholder="Fecha Regreso (opcional)" name="fecha_regreso" )
+
+            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl mt-5 bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Buscar")
+      img(src="/public/", alt="")
+      div(class="border-solid mt-10 ml-20 mr-20  border-azul-rey w-150 h-60 border-2 shadow-lg")
+        img(src="/public/img/Pachuca.jpg",class="h-60 w-150" alt="")
+        p(class="h-80 w-auto") viaje de pachuca a mexico 

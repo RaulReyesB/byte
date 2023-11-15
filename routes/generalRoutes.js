@@ -5,5 +5,6 @@ import express, { response } from 'express'
 const router = express.Router();
 
 router.get('/', (request, response) => response.render("./auth/Inicio", {page:"Inicio",showHeader:true, showFooter:true}))
+router.get('/viajes', (request, response) => response.render("./auth/viajes", {page:"Viajes",showHeader:true, showFooter:true}))
 
 export default router;
