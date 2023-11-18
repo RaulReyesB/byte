@@ -42,5 +42,5 @@ app.listen(port, () => {
 });
 
 app.use('/', generalRoutes)
-app.use('/login', userRoutes)
+app.use('/user', userRoutes)
 
