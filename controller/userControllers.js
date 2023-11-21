@@ -5,7 +5,7 @@ import Result from "postcss/lib/result";
 
 
 const formularioLogin = (request, response) => {
-  response.render('auth/login.pug', {
+  response.render('auth/login', {
     page: "Iniciar Sesion"
   })
 }
@@ -22,9 +22,9 @@ const formularioOlvidoContra = (request, response) => {
   })
 }
 
-const ticket = (request, response) => {
-  response.render('auth/ticket.pug', {
-    page: ticket
+const tiket = (request, response) => {
+  response.render('auth/tiket.pug', {
+    page: tiket
   })
 }
 
@@ -41,5 +41,5 @@ export {
   formularioLogin,
   formularioRegistro,
   formularioOlvidoContra,
-  ticket
+  tiket
 }
