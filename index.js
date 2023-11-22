@@ -12,6 +12,7 @@ import Tbbreservacion from "./models/resevacion.js";
 import Tbbruta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
 import path from "path";
+import viajesRoutes from './routes/viajesRoutes.js'
 
 const app = express()
 
@@ -43,4 +44,5 @@ app.listen(port, () => {
 
 app.use('/', generalRoutes)
 app.use('/user', userRoutes)
+app.use('/viajes', viajesRoutes)
 

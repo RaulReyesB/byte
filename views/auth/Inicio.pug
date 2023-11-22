@@ -13,7 +13,7 @@ block content
             input#Destino.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white.mr-1.ml-1(class="md:w-60" placeholder="Destino" name="Destino" )
             input#fecha_salida.px-3.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white.mr-1.ml-1(class="md:w-60" type="date")(placeholder="Fecha Salida" name="fecha_salida" )
         
-            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Buscar")
+            input#buscar.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Buscar.")
           div(class="flex justify-evenly items-center")
             img(src='/public/icons/paypal.png' class="mt-2 w-20 h-18")
             img(src='/public/icons/visa.png' class="mt-2 w-20 h-18")
@@ -28,9 +28,21 @@ block content
     section(class="flex justify-evenly items-center w-full h-80 mb-20  ")
       div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
         img(src="/public/img/Pachuca.jpg",class="h-40 w-full" alt="")
+        p(class="text-center text-lg") Huauchinango - Mexico
+        p(class="text-center text-lg mt-2") Viaje Redondoo 
+        p(class="text-center text-lg mt-2") $699
+        a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-40 ml-20 mt-1" type="submit" value="Comprar.", href="") Comprar.
       div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
         img(src="/public/img/Puebla.jpg",class="h-40 w-full" alt="")
+        p(class="text-center text-lg") Huauchinango - Mexico
+        p(class="text-center text-lg mt-2") Viaje Redondoo 
+        p(class="text-center text-lg mt-2") $699
+        a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-40 ml-20 mt-1" type="submit" value="Comprar.", href="") Comprar.
       div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
         img(src="/public/img/queretaro.jpg" class="h-40 w-full", alt="")
+        p(class="text-center text-lg") Huauchinango - Mexico
+        p(class="text-center text-lg mt-2") Viaje Redondoo 
+        p(class="text-center text-lg mt-2") $699
+        a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-40 ml-20 mt-1" type="submit" href="") Comprar.
     div(class="flex items-center justify-center")
-      input#vermas.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Ver mas.", href="/viajes")
+      a#vermas.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer md:w-80" type="submit" value="Ver mas." href="/viajes").text-center Ver mas.

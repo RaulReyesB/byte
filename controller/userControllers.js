@@ -23,7 +23,7 @@ const formularioOlvidoContra = (request, response) => {
 }
 
 const tiket = (request, response) => {
-  response.render('auth/tiket.pug', {
+  response.render('auth/ticket.pug', {
     page: tiket
   })
 }
