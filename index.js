@@ -14,14 +14,12 @@ import TbbPersona from "./models/persona.js";
 import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
-<<<<<<< HEAD
 import TbbViajes from './models/viajes.js';
 
 
-=======
+
 import path from "path";
 import viajesRoutes from './routes/viajesRoutes.js'
->>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5
 
 const app = express()
 
@@ -29,7 +27,6 @@ const app = express()
 try {
   await db.authenticate();
   await db.sync({});
-<<<<<<< HEAD
     console.log("Conexion a la Base de Datos exitosa");
   
 
@@ -56,9 +53,8 @@ try {
 
 
      
-=======
   console.log("Conexion a la Base de Datos exitosa");
->>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5
+
 } catch (error) {
   console.log(error);
 }
@@ -81,10 +77,7 @@ app.listen(port, () => {
 });
 
 app.use('/', generalRoutes)
-<<<<<<< HEAD
 app.use('/login', userRoutes)
-=======
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
 
->>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5
