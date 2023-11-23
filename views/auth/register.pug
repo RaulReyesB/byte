@@ -19,7 +19,7 @@ block content
                 });
             }, 5000); // Ocultar los mensajes de error después de 5 segundos
 
-        .mt-8.mx-auto.max-w-md
+        .mt-8.mx-auto.max-w-xl
             .bg-azul-rey.py-8.px-4.shadow-xl.rounded-xl
                 form.space-y-5(action="/login/register" method="POST" novalidate)
                     input(type="hidden" name="_csrf" value=csrfToken)
@@ -33,9 +33,32 @@ block content
 
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Apellido materno
-                        input#amat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido materno" name="amat" value=user ? user.apellidoMaterno : '' required)
-
+                        input#amat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido materno" name="amat" value=user ? user.apellidoMaterno : '')
                     
+                    div(class="md:flex md:gap-4") 
+                        div(class="md:w-1/2")
+                            label.block.text-sm.uppercase.text-white.mb-3.font-bold Fecha de nacimiento
+                            input#fecha.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(name="fecha" type="date" required)
+                    
+                        div(class="md:w-1/2")
+                            label.block.text-sm.uppercase.text-white.mb-3.font-bold Genero
+                            select#genero.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(name="edad")
+                                option(value="" selected disabled) -- Selecciona tu Genero --
+                                option(value="1") Hombre
+                                option(value="2") Mujer
+                                option(value="3") 1 de 63 tipos de Gays  
+
+                    div
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Codigo Postal:
+                        input#cp.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="#####" name="cp" required)
+
+                    div
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Direccion:
+                        input#direccion.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Calle #numero" name="direccion" required)
+
+                    div
+                        label.block.text-sm.uppercase.text-white.mb-3.font-bold Numero de Telefono:
+                        input#tel.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="###-###-####" type="number" name="tel" required)
 
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Email:
