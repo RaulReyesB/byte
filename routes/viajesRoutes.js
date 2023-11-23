@@ -3,6 +3,6 @@ import { viajes } from '../controller/viajesController.js';
 
 const router = express.Router();
 
-router.get("/", viajes);
+router.get("/", viajes );
 
 export default router;
