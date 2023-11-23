@@ -7,8 +7,6 @@ import TbbViajes from './viajes.js';
 import TbbRuta from './ruta.js';
 
 
-
-
 TbbPersona.hasMany(TbbEmpleado, { foreignKey: 'px|ersonaId', sourceKey: 'id' });
 TbbEmpleado.belongsTo(TbbPersona, { foreignKey: 'personaId', targetKey: 'id' });
 

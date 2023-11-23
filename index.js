@@ -38,23 +38,7 @@ try {
        
       }],
     })
-      .then(result => {
-        console.log('conexion de tablas exitosa')
-        console.log(result);
-      })
-  
-      .catch(error => {
-        console.error('Error al realizar la consulta:', error);
-      });
-
-
-
-
-
-
-     
-  console.log("Conexion a la Base de Datos exitosa");
-
+      
 } catch (error) {
   console.log(error);
 }
