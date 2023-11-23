@@ -14,9 +14,14 @@ import TbbPersona from "./models/persona.js";
 import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
+<<<<<<< HEAD
 import TbbViajes from './models/viajes.js';
 
 
+=======
+import path from "path";
+import viajesRoutes from './routes/viajesRoutes.js'
+>>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5
 
 const app = express()
 
@@ -24,6 +29,7 @@ const app = express()
 try {
   await db.authenticate();
   await db.sync({});
+<<<<<<< HEAD
     console.log("Conexion a la Base de Datos exitosa");
   
 
@@ -50,8 +56,11 @@ try {
 
 
      
+=======
+  console.log("Conexion a la Base de Datos exitosa");
+>>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5
 } catch (error) {
-   console.log(error);
+  console.log(error);
 }
 
 //Habilitando PUG
@@ -59,10 +68,12 @@ try {
 app.set('view engine', 'pug')
 app.set('views', './views')
 
+app.use("/public", express.static(path.join('public')));
+
 //Definimos la carpeta para los recursos Public
 app.use(express.static('public'))
 //Permitimos la lectura de datos atraves de los elementos HTML
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 
 const port = 3000; //Definimos el puerto 64400 puertos mtb 1024 - 50
 app.listen(port, () => {
@@ -70,4 +81,10 @@ app.listen(port, () => {
 });
 
 app.use('/', generalRoutes)
+<<<<<<< HEAD
 app.use('/login', userRoutes)
+=======
+app.use('/user', userRoutes)
+app.use('/viajes', viajesRoutes)
+
+>>>>>>> f5aae8beaf5ba3bf0e538a86aa314839b7d7c0f5

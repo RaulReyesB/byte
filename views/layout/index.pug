@@ -7,6 +7,10 @@ html(lang="es")
     title Byte Bus | #{page}
     link(rel="stylesheet", href="/css/app.css")
   body.min-h-screen.bg-bitterr
+    if showHeader
+      include nav
     main
       block content
+    if showFooter 
+      include pie
 

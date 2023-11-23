@@ -3,9 +3,8 @@ import { formularioLogin,formularioOlvidoContra,formularioRegistro, tiket } from
 
 const router = express.Router();
 
-router.get("/", formularioLogin);
+router.get("/login", formularioLogin);
 router.get("/register", formularioRegistro);
 router.get("/forgot-password",formularioOlvidoContra);
-router.get("/pantallaInicio")
-router.get("/tiket", tiket)
+router.get("/ticket", tiket)
 export default router;
