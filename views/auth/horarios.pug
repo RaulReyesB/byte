@@ -1,0 +1,52 @@
+extends ../layout/index
+
+block content
+    div(class="bg-gray-100 min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8")
+        div(class="max-w-4xl mx-auto flex flex-col")
+            h1.text-4xl.text-black.font-bold.mb-8.text-center Asientos de ida
+
+            // Filtrar
+            div(class="px-4 py-4 sm:px-6")
+                h3(class="text-lg leading-6 font-medium text-gray-900") Filtrar:
+                div(class="flex space-x-4")
+                    div
+                        label(for="horaSalida" class="block text-sm font-medium text-gray-700") Hora de Salida:
+                        input(id="horaSalida" class="form-input w-full mt-1" type="text" placeholder="18:00 h Huauchinango")
+                    div
+                        label(for="horaLlegada" class="block text-sm font-medium text-gray-700") Hora de Llegada:
+                        input(id="horaLlegada" class="form-input w-full mt-1" type="text" placeholder="19:50 h Pachuca de Soto")
+
+            // Contenedor principal 1
+            div(class="bg-white rounded-lg shadow overflow-hidden sm:divide-y sm:divide-gray-200")
+                div(class="px-4 py-4 sm:px-6")
+                    div(class="flex justify-between items-center")
+                        // Información de origen y destino
+                        div(class="flex flex-col")
+                            span.font-bold Origen:
+                            span Huauchinango
+                            span.font-bold Destino:
+                            span Puebla
+                        // Precio
+                        p(class="text-lg font-semibold text-gray-900") $350 MX
+
+                div(class="px-4 py-4 sm:px-6 mt-4")
+                    button(class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out")
+                        span Ver detalles
+
+            // Contenedor principal 2
+            div(class="bg-white rounded-lg shadow overflow-hidden sm:divide-y sm:divide-gray-200 mt-4")
+                div(class="px-4 py-4 sm:px-6")
+                    div(class="flex justify-between items-center")
+                        // Información de origen y destino
+                        div(class="flex flex-col")
+                            span.font-bold Origen:
+                            span Huauchinango
+                            span.font-bold Destino:
+                            span Puebla
+                        // Precio
+                        p(class="text-lg font-semibold text-gray-900") $350 MX
+
+                div(class="px-4 py-4 sm:px-6")
+                    button(class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out")
+                        span Ver detalles
+
