@@ -4,7 +4,7 @@ import Sequelize from "sequelize"; // Elemento del ORM que permite definir los t
 import db from '../config/db.js'; // Importa la instancia de DataTypes ya configurada.
 
 
-const TbbAutobus = db.define("tbb_asiento", {
+const TbbAutobus = db.define("tbb_autobus", {
     capacidad: {
       type: DataTypes.INTEGER, // Tipo de datos para la capacidad (entero)
       allowNull: false, // La capacidad no puede ser nula
@@ -25,5 +25,4 @@ const TbbAutobus = db.define("tbb_asiento", {
       defaultValue: Sequelize.NOW, // Valor predeterminado para la fecha de registro (la fecha actual)
     }
   });
-
   export default TbbAutobus;
