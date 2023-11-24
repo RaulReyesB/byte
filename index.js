@@ -27,18 +27,18 @@ const app = express()
 try {
   await db.authenticate();
   await db.sync({});
-    console.log("Conexion a la Base de Datos exitosa");
-  
+  console.log("Conexion a la Base de Datos exitosa");
 
 
 
-    TbbPersona.findAll({
-      include: [{
-        model: TbbEmpleado,
-       
-      }],
-    })
-      
+
+  TbbPersona.findAll({
+    include: [{
+      model: TbbEmpleado,
+
+    }],
+  })
+
 } catch (error) {
   console.log(error);
 }
@@ -61,7 +61,6 @@ app.listen(port, () => {
 });
 
 app.use('/', generalRoutes)
-app.use('/login', userRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
 
