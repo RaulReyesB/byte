@@ -4,7 +4,7 @@ block content
     div.py-10
         h1.text-center.text-4xl.my-10.font-extrabold.text-azul-rey Byte
             span.font-normal.text-lion  Buss
-        h2.text-center.text-3xl.font-extrabold.text-raisin-black #{pagina}
+        h2.text-center.text-3xl.font-extrabold.text-raisin-black #{page}
             if errors
                 div(class="max-w-md mx-auto my-10")
                     each error in errors
@@ -21,7 +21,7 @@ block content
 
         .mt-8.mx-auto.max-w-md
             .bg-azul-rey.py-8.px-4.shadow-xl.rounded-xl
-                form.space-y-5(action="/login/register" method="POST" novalidate)
+                form.space-y-5(action="/user/register" method="POST" novalidate)
                     input(type="hidden" name="_csrf" value=csrfToken)
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Nombre 
@@ -34,8 +34,6 @@ block content
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Apellido materno
                         input#amat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido materno" name="amat" value=user ? user.apellidoMaterno : '' required)
-
-                    
 
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Email:
