@@ -19,7 +19,7 @@ block content
                 });
             }, 5000); // Ocultar los mensajes de error después de 5 segundos
 
-        .mt-8.mx-auto.max-w-md
+        .mt-8.mx-auto.max-w-xl
             .bg-azul-rey.py-8.px-4.shadow-xl.rounded-xl
                 form.space-y-5(action="/user/register" method="POST" novalidate)
                     input(type="hidden" name="_csrf" value=csrfToken)
@@ -34,6 +34,8 @@ block content
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Apellido materno
                         input#amat.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Apellido materno" name="amat" value=user ? user.apellidoMaterno : '' required)
+
+                    
 
                     div
                         label.block.text-sm.uppercase.text-white.mb-3.font-bold Email:

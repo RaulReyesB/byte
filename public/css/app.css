@@ -667,6 +667,9 @@ video {
 .max-w-md {
   max-width: 28rem;
 }
+.max-w-xl {
+  max-width: 36rem;
+}
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -1044,8 +1047,16 @@ video {
     width: 24rem;
   }
 
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
   .md\:items-center {
     align-items: center;
+  }
+
+  .md\:gap-4 {
+    gap: 1rem;
   }
 }
 @media (min-width: 1024px) {
