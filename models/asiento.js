@@ -19,11 +19,9 @@ const TbbAsiento = db.define("tbb_asiento", {
     },    
     identificador: {
         type: DataTypes.STRING, // Campo de tipo cadena de texto sin longitud máxima especificada.
-        unique: true, // Hace que los valores en este campo sean únicos en la tabla.
     },
     zona: {
         type: DataTypes.STRING, // Campo de tipo cadena de texto sin longitud máxima especificada.
-        unique: true, // Hace que los valores en este campo sean únicos en la tabla.
     },
 }, {
     // Opciones adicionales del modelo, si las necesitas.
