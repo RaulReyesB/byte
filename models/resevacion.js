@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir l
 import db from '../config/db.js'; // Importa la instancia de DataTypes ya configurada.
 
 
-const TbbReservacion = db.define("tbb_reservación", {
+const TbbReservacion = db.define("tbb_reservacioSnes", {
     Destino: {
       type: DataTypes.STRING, // Tipo de datos para el destino (cadena de texto)
       allowNull: false, // El destino no puede ser nulo

@@ -26,7 +26,16 @@ const User = db.define("tbb_users",
     verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    personaID:{
+      type: DataTypes.INTEGER, // Tipo de datos para la clave foránea (entero)
+      allowNull: false,
+      references: {
+        model: 'tbb_personas', // Nombre de la tabla referenciada
+        key: 'id', // Nombre de la clave primaria referenciada
+      },
     }
+
   },
   {
     hooks: {

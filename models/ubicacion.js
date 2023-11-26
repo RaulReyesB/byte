@@ -24,7 +24,6 @@ const TbbUbicacion = db.define("tbb_ubicaciones", {
       longitud: {
         type: DataTypes.FLOAT, // Tipo de datos para la longitud
       }
-      
   });
 
   export default TbbUbicacion;

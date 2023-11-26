@@ -1,7 +1,7 @@
 // Importa los módulos necesarios.
 import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
 import db from '../config/db.js'; // Importa la instancia de Sequelize ya configurada.
-
+import Sequelize from "sequelize";
 // Define un modelo llamado "tbb_asiento".
 const TbbAsiento = db.define("tbb_asiento", {
     // Define las propiedades de la tabla "tbb_asiento".
@@ -23,10 +23,11 @@ const TbbAsiento = db.define("tbb_asiento", {
     },
     zona: {
         type: DataTypes.STRING, // Campo de tipo cadena de texto sin longitud máxima especificada.
-        unique: true, // Hace que los valores en este campo sean únicos en la tabla.
     },
-}, {
-    // Opciones adicionales del modelo, si las necesitas.
+    autobusID: {
+        type: DataTypes.INTEGER, // Tipo de datos para la clave foránea (entero)
+        allowNull: false,
+        }
 });
 
 // Exporta el modelo "TbbAsiento" para que pueda ser utilizado en otros archivos.
