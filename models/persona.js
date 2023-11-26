@@ -4,7 +4,7 @@ import db from '../config/db.js'; // Importa la instancia de DataTypes ya config
 
 
 
-const TbbPersona = db.define("tbb_persona", {
+const TbbPersona = db.define("tbb_personas", {
     nombre: {
       type: DataTypes.STRING, // Tipo de datos para el nombre (cadena de texto)
       allowNull: false, // El nombre no puede ser nulo

@@ -37,6 +37,15 @@ try {
     }],
   })
 
+    TbbPersona.findAll({
+      include: [{
+        model: TbbEmpleado,
+       
+      }],
+    })
+
+
+      
 } catch (error) {
   console.log(error);
 }

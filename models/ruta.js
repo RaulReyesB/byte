@@ -22,6 +22,14 @@ const TbbRuta = db.define("tbb_ruta", {
       type: DataTypes.STRING, // Tipo de datos para el fin (cadena de texto)
       allowNull: false, // El fin no puede ser nulo
     },
+    ubicacionID:{
+      type: DataTypes.INTEGER, // Tipo de datos para la clave foránea (entero)
+      allowNull: false,
+      references: {
+        model: 'tbb_ubicaciones', // Nombre de la tabla referenciada
+        key: 'id', // Nombre de la clave primaria referenciada
+      },
+    }
   });
 
   export default TbbRuta;
