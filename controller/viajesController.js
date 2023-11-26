@@ -9,12 +9,6 @@ const viajes = (request, response) => {
     page: "Viajes",
     showHeader: true,
     showFooter: true,
-    puebla: "Puebla",
-    pachuca: "Pachuca",
-    cdmx: "CDMX",
-    huauchinango:"Huauchinango",
-    xicotepec : "Xicotepec",
-    tulancingo: "Tulancingo"
   })
 }
 
@@ -23,12 +17,6 @@ const horarios = (request, response) => {
     page: "Horarios",
     showFooter: true,
     showHeader: true,
-    puebla: "Puebla",
-    pachuca: "Pachuca",
-    cdmx: "CDMX",
-    huauchinango:"Huauchinango",
-    xicotepec : "Xicotepec",
-    tulancingo: "Tulancingo"
   })
 
 }

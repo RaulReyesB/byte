@@ -34,7 +34,6 @@ const TbbPersona = db.define("tbb_persona", {
     correoElectronico: {
       type: DataTypes.STRING, // Tipo de datos para el correo electrónico (cadena de texto)
       allowNull: false, // El correo electrónico no puede ser nulo
-      unique: true, // El correo electrónico debe ser único
     },
   });
 

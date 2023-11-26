@@ -4,7 +4,7 @@ block content
     div.py-10
         h1.text-center.text-4xl.my-10.font-extrabold.text-azul-rey Byte
             span.font-normal.text-lion  Buss
-        h2.text-center.text-3xl.font-extrabold.text-raisin-black #{page}
+        h2.text-center.text-3xl.font-extrabold.text-raisin-black #{pagina}
             if errors
                 div(class="max-w-md mx-auto my-10")
                     each error in errors
@@ -17,7 +17,7 @@ block content
                 errorMessages.forEach(function(errorMessage) {
                     errorMessage.style.display = "none";
                 });
-            }, 5000); // Ocultar los mensajes de error después de 5 segundos
+            }, 10000); // Ocultar los mensajes de error después de 5 segundos
 
         .mt-8.mx-auto.max-w-2xl
             .bg-azul-rey.py-8.px-4.shadow-xl.rounded-xl

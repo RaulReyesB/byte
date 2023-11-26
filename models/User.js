@@ -13,7 +13,6 @@ const User = db.define("tbb_users",
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: true
     },
     password: {
       type: DataTypes.STRING,
@@ -21,7 +20,6 @@ const User = db.define("tbb_users",
     },
     token: {
       type: DataTypes.STRING,
-      unique: true
     },// token: al no definir el que es obligatorio, lo toma como opcional 
     verified: {
       type: DataTypes.BOOLEAN,
