@@ -15,9 +15,6 @@ import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
 import TbbViajes from './models/viajes.js';
-
-
-
 import path from "path";
 import viajesRoutes from './routes/viajesRoutes.js'
 
@@ -27,10 +24,14 @@ const app = express()
 try {
   await db.authenticate();
   await db.sync({});
-    console.log("Conexion a la Base de Datos exitosa");
-  
+  console.log("Conexion a la Base de Datos exitosa");
 
+  TbbPersona.findAll({
+    include: [{
+      model: TbbEmpleado,
 
+    }],
+  })
 
     TbbPersona.findAll({
       include: [{
@@ -63,7 +64,6 @@ app.listen(port, () => {
 });
 
 app.use('/', generalRoutes)
-app.use('/login', userRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
 

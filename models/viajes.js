@@ -6,7 +6,6 @@ const TbbViajes = db.define("tbb_viajes", {
   nombre: {
     type: DataTypes.STRING,
     allowNull: false, // Puedes ajustar según tus necesidades
-    unique: true, // Puedes ajustar según tus necesidades
   },
 
   // Ejemplo de un campo llamado 'descripcion' de tipo TEXT

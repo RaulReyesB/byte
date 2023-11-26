@@ -1,8 +1,10 @@
 import express, {Router} from 'express'
-import { viajes } from '../controller/viajesController.js';
+import { viajes, horarios, precios } from '../controller/viajesController.js';
 
 const router = express.Router();
 
 router.get("/", viajes );
+router.get('/horarios', horarios)
+router.get('/PreciosIda', precios)
 
 export default router;

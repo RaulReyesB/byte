@@ -1,0 +1,56 @@
+extends ../layout/index
+
+block content
+    html
+        head
+
+            link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css")
+
+    body
+        h1.text-4xl.text-black.font-bold.mb-8.text-center Asientos de ida
+
+        .bg-gray-100.min-h-screen.items-center.justify-center.py-12.px-4.sm.px-6.lg.px-8
+            .max-w-4xl.mx-auto 
+                .flex.flex-col 
+                    .rounded-lg.shadow-lg.overflow-hidden.bg-white.sm.rounded-3xl.my-8
+                        .sm.flex.sm.items-center.px-6.py-4
+                            img(src="foto.jpg" alt="Foto de un viajero").w-16.h-16.rounded-full
+                            .text-center.sm.text-left.text-sm.font-medium.text-gray-900.mt-4.mb-6.ml-4
+                                p Pasajero 01 - Adulto
+                                p Precio: $350 MX
+                                p Quedan #asientos
+
+                .flex.space-x-4 
+                    .w-18.h-96.flex-shrink-0.border-1.border-solid.border-gray-300.bg-white.shadow-lg 
+                        .p-8
+                            h2.text-2xl.text-black.font-bold.mb-2 Viaje de ida
+                            span.font-bold 26/Oct./23 19:00
+                            div.flex.flex-col.text-sm
+                                span.font-bold Origen:
+                                span Huauchinango
+                            div.flex.justify-between.mb-2
+                                div.flex.flex-col.text-sm
+                                    span.font-bold Destino:
+                                    span Puebla        
+
+                    .w-18.h-96.flex-shrink-0.border-1.border-solid.border-gray-300.bg-white.shadow-lg 
+                        .p-8
+                            div.flex.justify-between.mb-2
+                                div.flex.flex-col.text-sm
+                                    span.font-bold 01 Adulto(s)
+                                div.flex.flex-col.text-sm
+                                    span.font-bold $128
+                            div.flex.justify-between.mb-2
+                                div.flex.flex-col.text-sm
+                                    span.font-bold Subtotal:
+                                    span.font-bold $110.34
+                                div.flex.flex-col.text-sm
+                                    span.font-bold IVA:
+                                    span.font-bold $17.66
+                            div.flex.justify-between.mb-2
+                                div.flex.flex-col.text-sm
+                                    span.font-bold Total:
+                                    span.font-bold $128 MXN
+                            div.text-sm.text-gray-600.mb-2 Precios incluyen IVA
+                            div
+                                button.bg-blue-500.hover.bg-blue-700.text-white.font-bold.py-2.px-4.rounded.mb-2 Continuar
