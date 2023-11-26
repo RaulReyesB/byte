@@ -1,4 +1,6 @@
 import Sequelize from 'sequelize';
+import session from 'express-session'; // Agregado: importar express-session
+import passport from 'passport';
 import './models/asociaciones.js'
 import { DataTypes } from 'sequelize';
 import express from "express";
@@ -17,6 +19,8 @@ import TbbUbicacion from "./models/ubicacion.js";
 import TbbViajes from './models/viajes.js';
 import path from "path";
 import viajesRoutes from './routes/viajesRoutes.js'
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 const app = express()
 
@@ -49,12 +53,50 @@ app.use(express.static('public'))
 //Permitimos la lectura de datos atraves de los elementos HTML
 app.use(express.urlencoded({ extended: false }))
 
+
+// Configurar express-session
+app.use(session({
+  secret: process.env.CLIENTE_SECRETO, // Cambia esto con una clave segura
+  resave: false,
+  saveUninitialized: false,
+}));
+
+// Inicializar Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 const port = 3000; //Definimos el puerto 64400 puertos mtb 1024 - 50
 app.listen(port, () => {
   console.log(`El servidor esta funcionando en el puerto ${port}`)
 });
+// Inicializar Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', generalRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
 
+app.get('/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] })
+);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/');
+  }
+);
+
+app.get('/profile', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
