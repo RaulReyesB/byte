@@ -23,6 +23,16 @@ const TbbAutobus = db.define("tbb_autobus", {
     fechaRegistro: {
       type: DataTypes.DATE, // Tipo de datos para la fecha de registro (fecha y hora)
       defaultValue: Sequelize.NOW, // Valor predeterminado para la fecha de registro (la fecha actual)
-    }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true, // O ajusta a false si deseas permitir valores nulos
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   });
   export default TbbAutobus;

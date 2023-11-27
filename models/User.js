@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO"
+import { DataTypes, Sequelize } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO"
 import db from '../config/db.js';
 import bcrypt from "bcrypt";
 
@@ -32,9 +32,19 @@ const User = db.define("tbb_users",
         model: 'tbb_personas', // Nombre de la tabla referenciada
         key: 'id', // Nombre de la clave primaria referenciada
       },
-    }
+    }, createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true, // O ajusta a false si deseas permitir valores nulos
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
 
   },
+  
   {
     hooks: {
       beforeCreate: async (User) => {

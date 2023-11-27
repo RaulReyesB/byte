@@ -1,5 +1,5 @@
 // Importa los módulos necesarios.
-import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
+import { DataTypes, Sequelize } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
 import db from '../config/db.js'; // Importa la instancia de Sequelize ya configurada.
 
 
@@ -21,6 +21,16 @@ const TbbItinerario = db.define("tbb_itinerario", {
     duración: {
       type: DataTypes.INTEGER, // Tipo de datos para la duración (entero)
       allowNull: false, // La duración no puede ser nula
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true, // O ajusta a false si deseas permitir valores nulos
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
   });
   export default TbbItinerario;

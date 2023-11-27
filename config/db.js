@@ -18,7 +18,7 @@ const db = new Sequelize(
       idle: 10000,
     },
     operatorsAliases: false, 
-    logging: false, // Aquí está la opción logging
+    logging: false, 
   }
 );
 

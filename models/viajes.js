@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import db from "../config/db.js";
 
 const TbbViajes = db.define("tbb_viajes", {
@@ -36,7 +36,17 @@ const TbbViajes = db.define("tbb_viajes", {
       key: 'id', // Nombre de la clave primaria referenciada
     },
 
-  }
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true, // O ajusta a false si deseas permitir valores nulos
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
 
 });
 

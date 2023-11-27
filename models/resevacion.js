@@ -1,9 +1,9 @@
 // Importa los módulos necesarios.
-import { DataTypes } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
+import { DataTypes,Sequelize } from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
 import db from '../config/db.js'; // Importa la instancia de DataTypes ya configurada.
 
 
-const TbbReservacion = db.define("tbb_reservacioSnes", {
+const TbbReservacion = db.define("tbb_reservaciones", {
     Destino: {
       type: DataTypes.STRING, // Tipo de datos para el destino (cadena de texto)
       allowNull: false, // El destino no puede ser nulo

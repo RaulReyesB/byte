@@ -1,5 +1,5 @@
 // Importa los módulos necesarios.
-import { DataTypes } from "sequelize";
+import { DataTypes,Sequelize } from "sequelize";
 import db from '../config/db.js';
 
 const TbbEmpleado = db.define("tbb_empleado", {
@@ -25,6 +25,16 @@ const TbbEmpleado = db.define("tbb_empleado", {
   },
   Tipo: {
     type: DataTypes.STRING, // Tipo de datos para el tipo (cadena de texto)
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true, // O ajusta a false si deseas permitir valores nulos
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
 });
 
