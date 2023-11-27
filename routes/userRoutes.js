@@ -9,7 +9,8 @@ router.get("/register", formularioRegistro);
 router.get("/forgot-password",formularioOlvidoContra);
 router.get("/ticket", tiket)
 router.post("/register", insertarUsuario)
-
+router.get("/PreciosIda")
+router.get("/horarios")
 
 
 export default router;
