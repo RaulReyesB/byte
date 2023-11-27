@@ -117,7 +117,7 @@ const insertarUsuario = async (request, response) => {
 
   console.log("El usuario está intentando registrar sus datos en la base de datos");
   console.log(`Nombre: ${request.body.name}`);
-  const { name, email, password, birthdate, apat, amat, gen, cp, fir, tel } = request.body;
+  const { name, email, password, birthdate, apat, amat, gen, cp, dir, tel } = request.body;
 
 
   await check("name").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({ min: 4 }).withMessage("El nombre debe contener 4 caracteres como minimo").isLength({ max: 15 }).withMessage("El nombre debe contener 15 caracteres maximo").run(request)
@@ -127,6 +127,12 @@ const insertarUsuario = async (request, response) => {
   await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
 
   await check("password").notEmpty().withMessage("Este campo es OBLIGATORIO: PASSWORD").isLength({ min: 8 }).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({ max: 20 }).withMessage("Password must contain less than 20 characters").equals(request.body.cpassword).withMessage("Ambas contraseñas deben ser iguales").run(request)
+
+  await check("cp").notEmpty().withMessage("Este campo es OBLIGATORIO: CODIGO POSTAL").isLength({ min: 5, max: 5 }).withMessage("Codigo postal invalido").run(request)
+
+  await check("tel").notEmpty().withMessage("Este campo es OBLIGATORIO: Telefono").run(request)
+
+  await check("dir").notEmpty().withMessage("Este campo es OBLIGATORIO: DIRECCION").run(request)
 
   await check("birthdate").notEmpty().withMessage("Este campo es OBLIGATORIO: Fecha de Nacimiento").run(request);
 
@@ -182,10 +188,16 @@ const insertarUsuario = async (request, response) => {
         }
       });
     } else {
-      const newUser = await User.create({
+      const newUser = await TbbPersona.create({
         name,
+        apat,
+        amat,
+        birthDate,
+        gen,
+        cp,
+        dir,
+        tel,
         email,
-        password,
         token
       });
 
