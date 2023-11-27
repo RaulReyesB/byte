@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "server": "nodemon index.js",
-    "css": "postcss public/css/tailwind.css -o public/css/app.css  --watch"
+    "css": "postcss public/css/tailwind.css -o public/css/app.css  --watch",
+    "db:importData": "node ./lib/seed/startSeeder.js -i",
+    "db:deleteData": "node ./lib/seed/startSeeder.js -d"
   },
   "keywords": [
     "AWOS",

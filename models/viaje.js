@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import db from "../config/db.js";
 
-const TbbViajes = db.define("tbb_viajes", {
+const viaje = db.define("tbc_viaje", {
   // Ejemplo de un campo llamado 'nombre' de tipo STRING
   nombre: {
     type: DataTypes.STRING,
@@ -21,22 +21,9 @@ const TbbViajes = db.define("tbb_viajes", {
   },
   fecha_Inicio:{
     type:DataTypes.DATE,
-    allowNull: false,
-  },
-  fecha_Inicio:{
-    type:DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   
-  rutaID:{
-    type: DataTypes.INTEGER, // Tipo de datos para la clave foránea (entero)
-    allowNull: false,
-    references: {
-      model: 'tbb_ruta', // Nombre de la tabla referenciada
-      key: 'id', // Nombre de la clave primaria referenciada
-    },
-
-  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -46,8 +33,8 @@ const TbbViajes = db.define("tbb_viajes", {
     type: DataTypes.DATE,
     allowNull: true, // O ajusta a false si deseas permitir valores nulos
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-  },
+  }
 
 });
 
-export default TbbViajes;
+export default viaje;

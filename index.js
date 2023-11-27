@@ -16,8 +16,8 @@ import TbbPersona from "./models/persona.js";
 import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
 import TbbUbicacion from "./models/ubicacion.js";
-import TbbViajes from './models/viajes.js';
 import path from "path";
+import Viaje from './models/viaje.js';
 import viajesRoutes from './routes/viajesRoutes.js'
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
