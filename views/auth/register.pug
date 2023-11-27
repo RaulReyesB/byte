@@ -74,11 +74,11 @@ block content
                             label.block.text-sm.uppercase.text-white.mb-3.font-bold Numero de Telefono
                             input#tel.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="###-###-####" name="tel" required)
                     // Enlace para iniciar sesión con Google
-                    a(href="/google" class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer")
-                        | Iniciar sesión con Google
+                    
                     div.flex.items-center.justify-between
                         a.text-xs.text-white(href="/user/login" class="hover:underline decoration-4 decoration-azul-chicle") If you have an account, please Login 
                         a.text-xs.text-white(href="/user/forgot-password" class="hover:underline decoration-4 decoration-azul-chicle") Forgot your password? Recover it
+                        a(href="/google" class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer")| Iniciar sesión con Google
 
                     div
                         input#button_register.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer" type="submit" value="Create Account")

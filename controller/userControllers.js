@@ -18,13 +18,50 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
+
+
+const formularioLogin = (request, response) => {
+  response.render('auth/login', {
+    pagina: "Iniciar Sesion",
+    showHeader: true,
+
+  })
+}
+
+const formularioRegistro = (request, response) => {
+  response.render('auth/register.pug', {
+    pagina: 'Nueva cuenta',
+    showHeader: true,
+  })
+}
+
+const formularioOlvidoContra = (request, response) => {
+  response.render('auth/forgot-password.pug', {
+    pagina: 'Olvide Contraseña',
+    showHeader: true,
+  })
+}
+
+const tiket = (request, response) => {
+  response.render('auth/ticket.pug', {
+    pagina: tiket
+  })
+}
+
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENTE_ID,
   clientSecret: process.env.CLIENTE_SECRETO,
   callbackURL: "http://localhost:3000/google",
 }, async(accessToken, refreshToken, profile, done) => {
-  // Puedes verificar si el usuario ya existe en tu base de datos y realizar la lógica necesaria aquí
+  const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+
+  if (!email) {
+    // Manejar el caso en el que no se proporciona el correo electrónico en el perfil
+    return done(null, false, { message: 'No se proporcionó un correo electrónico en el perfil de Google.' });
+  }
   const userExists = await TbbPersona.findOne({ where: { email: email } });
+  
+  // Puedes verificar si el usuario ya existe en tu base de datos y realizar la lógica necesaria aquí
   if (userExists) {
     return response.render("auth/register.pug", {
       pagina: "Creando nueva cuenta",
@@ -36,7 +73,7 @@ passport.use(new GoogleStrategy({
       }
     });
   } else {
-    const newUser = await User.create({
+    const newUser = await TbbPersona.create({
       name,
       email,
       password,
@@ -47,7 +84,7 @@ passport.use(new GoogleStrategy({
     emailRegister({ name, email, token });
 
     response.render("templates/message.pug", {
-      page: "Info Message",
+      pagina: "Info Message",
       showHeader: true,
       type: "Info",
       notificationTitle: "Usuario creado",
@@ -65,34 +102,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
-
-const formularioLogin = (request, response) => {
-  response.render('auth/login', {
-    page: "Iniciar Sesion",
-    showHeader: true,
-
-  })
-}
-
-const formularioRegistro = (request, response) => {
-  response.render('auth/register.pug', {
-    page: 'Nueva cuenta',
-    showHeader: true,
-  })
-}
-
-const formularioOlvidoContra = (request, response) => {
-  response.render('auth/forgot-password.pug', {
-    page: 'Olvide Contraseña',
-    showHeader: true,
-  })
-}
-
-const tiket = (request, response) => {
-  response.render('auth/ticket.pug', {
-    page: tiket
-  })
-}
 
 /*
 const insertUser = async (request, response) => {
@@ -184,7 +193,7 @@ const insertarUsuario = async (request, response) => {
       emailRegister({ name, email, token });
 
       response.render("templates/message.pug", {
-        page: "Info Message",
+        pagina: "Info Message",
         showHeader: true,
         type: "Info",
         notificationTitle: "Usuario creado",
@@ -204,6 +213,8 @@ const insertarUsuario = async (request, response) => {
       }
     });
   }
+
+  
 }
 
 export {
