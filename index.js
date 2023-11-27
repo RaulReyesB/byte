@@ -94,6 +94,27 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect('/');
+    var google = require('googleapis').google;
+var OAuth2 = google.auth.OAuth2;
+
+var oauth2Client = new OAuth2();
+oauth2Client.setCredentials({access_token: 'https://www.googleapis.com/oauth2/v1/certs'});
+
+var oauth2 = google.oauth2({
+  auth: oauth2Client,
+  version: 'v2'
+});
+
+oauth2.userinfo.get(
+  function(err, res) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(res);
+    }
+  }
+);
+
   }
 );
 
