@@ -117,7 +117,7 @@ const insertarUsuario = async (request, response) => {
 
   console.log("El usuario está intentando registrar sus datos en la base de datos");
   console.log(`Nombre: ${request.body.name}`);
-  const { name, email, password, birthdate } = request.body;
+  const { name, email, password, birthdate, apat, amat, gen, cp, fir, tel } = request.body;
 
 
   await check("name").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({ min: 4 }).withMessage("El nombre debe contener 4 caracteres como minimo").isLength({ max: 15 }).withMessage("El nombre debe contener 15 caracteres maximo").run(request)
@@ -209,7 +209,13 @@ const insertarUsuario = async (request, response) => {
       user: {
         name: request.body.name,
         email: request.body.email,
-        birthdate: request.body.birthdate
+        birthdate: request.body.birthdate,
+        apat: request.body.apat,
+        amat: request.body.amat,
+        cp: request.body.cp,
+        tel: request.body.tel,
+        dir: request.body.dir,
+        gen: request.body.gen
       }
     });
   }
