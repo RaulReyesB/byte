@@ -13,17 +13,11 @@ const viaje = db.define("tbc_viaje", {
     type: DataTypes.TEXT,
     allowNull: true, // Puedes ajustar según tus necesidades
   },
-
   // Ejemplo de un campo llamado 'precio' de tipo DECIMAL
   precio: {
     type: DataTypes.DECIMAL(10, 2), // Puedes ajustar según tus necesidades
     allowNull: false, // Puedes ajustar según tus necesidades
   },
-  fecha_Inicio:{
-    type:DataTypes.DATE,
-    allowNull: true,
-  },
-  
   createdAt: {
     type: DataTypes.DATE,
     allowNull: true,

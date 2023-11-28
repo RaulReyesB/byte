@@ -1,16 +1,15 @@
 import path from 'path';
-import fs from 'fs/promises'; // También asegúrate de importar 'fs/promises' si no lo has hecho antes
+import fs from 'fs/promises';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
-
-// Resto de tus importaciones
-
 import express from 'express';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { request, response } from "express";
 import { check, validationResult } from "express-validator";
 import TbbPersona from '../models/persona.js';
+import { generateToken } from '../lib/tokens.js';
+import { generateJwt } from '../lib/tokens.js';
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
@@ -18,13 +17,10 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
-
-
 const formularioLogin = (request, response) => {
   response.render('auth/login', {
     pagina: "Iniciar Sesion",
     showHeader: true,
-
   })
 }
 
@@ -103,15 +99,7 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-/*
-const insertUser = async (request, response) => {
-  await check("name").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({min: 4}).withMessage("El nombre debe contener 4 caracteres como minimo").isLength({max: 15}).withMessage("El nombre debe contener 15 caracteres maximo").run(request)
 
-  await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
-
-  await check("password").notEmpty().withMessage("Este campo es OBLIGATORIO: PASSWORD").isLength({min: 8}).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({max: 20}).withMessage("Password must contain less than 20 characters").equals(request.body.cpassword).withMessage("Both password must be the same").run(request)
-}
-*/
 //llamada via http request, response 
 const insertarUsuario = async (request, response) => {
 
@@ -141,11 +129,11 @@ const insertarUsuario = async (request, response) => {
 
   if (resultadoValidacion.isEmpty()) {
     // Si el usuario pasa todas las validaciones, continuas con el registro
-    const token = generateID();
+    const token = generateToken();
     console.log(`Intentando insertar al usuario: ${name}, con el email: ${email}, con la contraseña: ${password} y token: ${token}`);
 
     // Validation duplicate user
-    const userExists = await User.findOne({ where: { email: email } });
+    const userExists = await TbbPersona.findOne({ where: { email: email } });
 
     // Validación de edad del usuario
 
