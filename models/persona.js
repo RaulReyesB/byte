@@ -15,11 +15,7 @@ const TbbPersona = db.define("tbb_personas", {
   apellidoMaterno: {
     type: DataTypes.STRING,
   },
-<<<<<<< HEAD
   fechaNacimiento: {
-=======
-  fecha_nacimiento: {
->>>>>>> 18b8a5d23eed2aa649280a30f9449c52fa7ded89
     type: DataTypes.DATE,
   },
   genero: {
