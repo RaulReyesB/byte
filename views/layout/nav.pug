@@ -1,8 +1,16 @@
+mixin navItem(href, text, children)
+  a(href=href class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg")= text
+  if children
+    ul
+      each child in children
+        li
+          +navItem(child.href, child.text, child.children)
+
 header(class="bg-azul-rey p-4")
   div(class="container flex mx-auto justify-between items-center")
     img(src="/public/img/logo_escrito.png",class="w-20 h-18", alt="")
     nav(class="flex gap-3 text-white my-2 text-sm md:flex md:items-center font-bold ")
-      a(href="" class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg") Ayuda 
-      a(href="/viajes" class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg") Viajes
-      a(href="/" class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg") Inicio
-      a(href="/user/login" class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg") Iniciar Sesion
+      +navItem("", "Ayuda", null)
+      +navItem("/viajes", "Viajes", null)
+      +navItem("/", "Inicio", null)
+      +navItem("/user/login", "Iniciar Sesion", null)
