@@ -102,6 +102,21 @@ passport.deserializeUser((obj, done) => {
 });
 
 
+const recuperaContrasenia = async (request, response) =>{
+  const { email } = request.body;
+  await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
+
+  let resultValidate = validationResult(req);
+    const userExists = await User.findOne({
+        where: {
+            email: req.body.email,
+        },
+  });
+
+  
+} 
+
+
 //llamada via http request, response 
 
 const insertarUsuario = async (request, response) => {
