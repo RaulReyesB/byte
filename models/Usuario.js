@@ -5,11 +5,6 @@ import bcrypt from "bcrypt";
 
 const Usuario = db.define("tbb_usuarios",
   {
-    /*name: {
-      type: DataTypes.STRING(255),
-      // indica que es obligatorio 
-      allowNull: false
-    },*/
     correoElectronico: {
       type: DataTypes.STRING(255),
       allowNull: false,

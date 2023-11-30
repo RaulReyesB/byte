@@ -102,19 +102,19 @@ passport.deserializeUser((obj, done) => {
 });
 
 
-const recuperaContrasenia = async (request, response) =>{
+const recuperaContrasenia = async (request, response) => {
   const { email } = request.body;
   await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
 
   let resultValidate = validationResult(req);
-    const userExists = await User.findOne({
-        where: {
-            email: req.body.email,
-        },
+  const userExists = await User.findOne({
+    where: {
+      email: req.body.email,
+    },
   });
 
-  
-} 
+
+}
 
 
 //llamada via http request, response 
@@ -161,7 +161,7 @@ const insertarUsuario = async (request, response) => {
       genero: gen,
       codigoPostal: cp,
       direccion: dir,
-      NumeroDeTelefono: tel,
+      numeroTelefono: tel,
 
     }, {
       returning: ['id']
@@ -199,7 +199,7 @@ const insertarUsuario = async (request, response) => {
       return response.render("auth/register.pug", {
         pagina: "Creando nueva cuenta",
         showHeader: true,
-        errors: [{ msg: "Tienes que tener al menos 18 añOs para registrarte." }],
+        errors: [{ msg: "Tienes que tener al menos 18 años para registrarte." }],
         user: {
           name: request.body.name,
           email: request.body.email
@@ -220,7 +220,7 @@ const insertarUsuario = async (request, response) => {
         });
       }
 
-      else { // si el usuario no existe
+      else { // si el usuario no existe, se crea
 
         Usuario.create({
           correoElectronico: email,
@@ -230,7 +230,7 @@ const insertarUsuario = async (request, response) => {
         })
       }
       // Enviar el correo de confirmacion
-      
+
       emailRegister({ name, email, token });
 
       response.render("templates/message.pug", {
@@ -240,11 +240,8 @@ const insertarUsuario = async (request, response) => {
         notificationTitle: "Usuario creado",
         notificationMessage: `The user associated to: ${email} has been created, please check your email for account verification`
       })
-
     }
   } else {
-    console.log(`verificando el error `)
-
     // Si hay errores en otras validaciones, muestra los errores
     return response.render("auth/register.pug", {
       pagina: "Creando nueva cuenta",
@@ -265,12 +262,91 @@ const insertarUsuario = async (request, response) => {
   }
 }
 
+const confirmarCuenta = async (request, response, next) => {
+  //*Obtener token de URL (solicitar)
 
+  console.log("El usuario esta intentando confirmar su cuenta")
+  const { token } = request.params;
+  //! Verificar si el token ya existe 
+  let userToken = await Usuario.findOne({ where: { token } });
+  if (!userToken) {
+    console.log('Este token no es válido');
+    // Pintar la pagina de respuesta 
+    response.render("templates/message.pug", {
+      page: "Error en el proceso de validación.",
+      notificationTitle: "El token es invalido",
+      notificationMessage: "El token es invalido",
+      type: "Warning"
+    })
+    //FIXME: Es para señalar errores
+  } else {
+    console.log('Este token es válido')
+    //Actualizar el estatus de verificacion en la base de datos
+    userToken.verificado = true;
+    // Eliminar el token 
+    userToken.token = "";
+    userToken.save();
+    //
+    response.render("templates/message", {
+      pagina: "¡Éxito!",
+      notificationTitle: "Tu cuenta esta confirmada",
+      notificationMessage: "Tu cuenta esta confirmada",
+      type: "Info"
+    })
+  }
+}
+
+
+const restaurarContrasena = async (request, response) => {
+  // Validar la existencia del usuario
+  await check('correoElectronico').notEmpty().withMessage('El correo electronico es necesario').isEmail().withMessage('El campo Correo electrónico debe ser un Correo electrónico (usuario@dominio.ext) y no estar vacío').run(request);
+  let resultado = validationResult(request);
+  const correoElectronico = request.body;
+  const usuarioExiste = Usuario.findOne({ where: correoElectronico });
+  // Crear el token para cambiar la contraseña
+  if (resultado.isEmpty()) {
+    if (!usuarioExiste) {
+      console.log(`El usuario con correo ${correoElectronico}`);
+      response.render('templates/message.pug', {
+        page: "Recovery Password",
+        notificationTitle: `Error Email not Found`,
+        notificationMessage: "The token is invalid",
+        type: "Error",
+      });
+    } else {
+      const tokenPassword = generateID();
+      usuarioExiste.token = tokenPassword;
+      await usuarioExiste.save();
+
+      restaurarContrasena({
+        correoElectronico,
+        tokenPassword,
+      });
+      console.log(`El usuario con correo ${correoElectronico}`);
+      response.render('templates/message.pug', {
+        pagina: "Recovery Password",
+        notificationTitle: `Email Found`,
+        notificationMessage: "The token is invalid",
+        type: "Info",
+      });
+    }
+  } else {
+    return response.render("auth/password-recovery.pug", {
+      pagina: "Recuperar contraseñA",
+      errors: resultado.array(),
+      usuario: {
+        correoElectronico: request.body.correoElectronico,
+      },
+    });
+  }
+}
 
 export {
   formularioLogin,
   formularioRegistro,
   formularioOlvidoContra,
   tiket,
-  insertarUsuario
+  insertarUsuario,
+  confirmarCuenta,
+  restaurarContrasena
 }
