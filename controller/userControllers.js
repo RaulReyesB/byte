@@ -332,7 +332,7 @@ const restaurarContrasena = async (request, response) => {
     }
   } else {
     return response.render("auth/forgot-password.pug", {
-      pagina: "Recuperar contraseñA",
+      pagina: "Recuperar contraseña",
       showHeader: true,
       errors: resultado.array(),
       usuario: {
