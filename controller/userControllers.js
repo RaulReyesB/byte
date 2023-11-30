@@ -7,9 +7,11 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { request, response } from "express";
 import { check, validationResult } from "express-validator";
-import TbbPersona from '../models/persona.js';
+import Persona from '../models/Persona.js';
+import Usuario from '../models/Usuario.js';
 import { generateToken } from '../lib/tokens.js';
 import { generateJwt } from '../lib/tokens.js';
+import { emailRegister } from '../lib/emails.js';
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
@@ -48,15 +50,15 @@ passport.use(new GoogleStrategy({
   clientID: process.env.CLIENTE_ID,
   clientSecret: process.env.CLIENTE_SECRETO,
   callbackURL: "http://localhost:3000/google",
-}, async(accessToken, refreshToken, profile, done) => {
+}, async (accessToken, refreshToken, profile, done) => {
   const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
 
   if (!email) {
     // Manejar el caso en el que no se proporciona el correo electrónico en el perfil
     return done(null, false, { message: 'No se proporcionó un correo electrónico en el perfil de Google.' });
   }
-  const userExists = await TbbPersona.findOne({ where: { email: email } });
-  
+  const userExists = await Persona.findOne({ where: { email: email } });
+
   // Puedes verificar si el usuario ya existe en tu base de datos y realizar la lógica necesaria aquí
   if (userExists) {
     return response.render("auth/register.pug", {
@@ -69,7 +71,7 @@ passport.use(new GoogleStrategy({
       }
     });
   } else {
-    const newUser = await TbbPersona.create({
+    const newUser = await Persona.create({
       name,
       email,
       password,
@@ -101,6 +103,7 @@ passport.deserializeUser((obj, done) => {
 
 
 //llamada via http request, response 
+
 const insertarUsuario = async (request, response) => {
 
   console.log("El usuario está intentando registrar sus datos en la base de datos");
@@ -131,9 +134,32 @@ const insertarUsuario = async (request, response) => {
     // Si el usuario pasa todas las validaciones, continuas con el registro
     const token = generateToken();
     console.log(`Intentando insertar al usuario: ${name}, con el email: ${email}, con la contraseña: ${password} y token: ${token}`);
+    console.log("Insertando los datos de la Persona, antes de crear al Usuario...")
+    console.log(`apat = ${apat}`)
+    let lastId;
 
+    await Persona.create({
+      nombre: name,
+      apellidoPaterno: apat,
+      apellidoMaterno: amat,
+      fechaDeNacimiento: birthdate,
+      genero: gen,
+      codigoPostal: cp,
+      direccion: dir,
+      NumeroDeTelefono: tel,
+
+    }, {
+      returning: ['id']
+    }
+    ).then((persona) => {
+      lastId = persona.id
+    }
+    )
+
+    console.log(`Se a creado un usuario con id ${lastId}`)
     // Validation duplicate user
-    const userExists = await TbbPersona.findOne({ where: { email: email } });
+    const userExists = await Usuario.findOne({ where: { correoElectronico: email } });
+
 
     // Validación de edad del usuario
 
@@ -165,31 +191,31 @@ const insertarUsuario = async (request, response) => {
         }
       });
     }
-    if (userExists) {
-      return response.render("auth/register.pug", {
-        pagina: "Creando nueva cuenta",
-        showHeader: true,
-        errors: [{ msg: `El usuario con correo ${email} ya esta registrado, intenta con otro correo` }],
-        user: {
-          name: request.body.name,
-          email: request.body.email
-        }
-      });
-    } else {
-      const newUser = await TbbPersona.create({
-        name,
-        apat,
-        amat,
-        birthDate,
-        gen,
-        cp,
-        dir,
-        tel,
-        email,
-        token
-      });
+    else  //else de mayoria de edad
+    {
+      if (userExists) {
+        return response.render("auth/register.pug", {
+          pagina: "Creando nueva cuenta",
+          showHeader: true,
+          errors: [{ msg: `El usuario con correo ${email} ya esta registrado, intenta con otro correo` }],
+          user: {
+            name: request.body.name,
+            email: request.body.email
+          }
+        });
+      }
 
+      else { // si el usuario no existe
+
+        Usuario.create({
+          correoElectronico: email,
+          contrasena: password,
+          token: token,
+          Persona_ID: lastId
+        })
+      }
       // Enviar el correo de confirmacion
+      
       emailRegister({ name, email, token });
 
       response.render("templates/message.pug", {
@@ -199,8 +225,11 @@ const insertarUsuario = async (request, response) => {
         notificationTitle: "Usuario creado",
         notificationMessage: `The user associated to: ${email} has been created, please check your email for account verification`
       })
+
     }
   } else {
+    console.log(`verificando el error `)
+
     // Si hay errores en otras validaciones, muestra los errores
     return response.render("auth/register.pug", {
       pagina: "Creando nueva cuenta",
@@ -219,9 +248,9 @@ const insertarUsuario = async (request, response) => {
       }
     });
   }
-
-  
 }
+
+
 
 export {
   formularioLogin,

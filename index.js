@@ -7,15 +7,15 @@ import express from "express";
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './config/db.js';// Instancuamos el modulo express de la libreria para definir el servidor que atendera las peticiones 
-import User from "./models/User.js";
+import Usuario from "./models/Usuario.js";
 import TbbAsiento from "./models/asiento.js";
 import TbbAutobus from "./models/autobus.js";
 import TbbEmpleado from "./models/empleado.js";
 import TbbItinerario from "./models/itinerario.js";
-import TbbPersona from "./models/persona.js";
+import Persona from "./models/Persona.js";
 import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
-import TbbUbicacion from "./models/ubicacion.js";
+import Ubicacion from './models/ubicacion.js';
 import path from "path";
 import Viaje from './models/viaje.js';
 import viajesRoutes from './routes/viajesRoutes.js'
@@ -30,14 +30,14 @@ try {
   await db.sync({});
   console.log("Conexion a la Base de Datos exitosa");
 
-  TbbPersona.findAll({
+  Persona.findAll({
     include: [{
       model: TbbEmpleado,
 
     }],
   })
 
-  TbbPersona.findAll({
+  Persona.findAll({
     include: [{
       model: TbbEmpleado,
 
