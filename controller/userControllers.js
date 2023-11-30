@@ -331,8 +331,9 @@ const restaurarContrasena = async (request, response) => {
       });
     }
   } else {
-    return response.render("auth/password-recovery.pug", {
+    return response.render("auth/forgot-password.pug", {
       pagina: "Recuperar contraseñA",
+      showHeader: true,
       errors: resultado.array(),
       usuario: {
         correoElectronico: request.body.correoElectronico,

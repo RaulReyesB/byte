@@ -9,6 +9,6 @@ router.get("/register", formularioRegistro);
 router.get("/forgot-password",formularioOlvidoContra);
 router.post("/register", insertarUsuario)
 router.get("/confirm/:token", confirmarCuenta)
-router.post("/user/forgot-password", restaurarContrasena)
+router.post("/forgot-password", restaurarContrasena)
 
 export default router;
