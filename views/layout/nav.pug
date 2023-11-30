@@ -1,16 +1,48 @@
 mixin navItem(href, text, children)
-  a(href=href class="bg-azul-300 py-2 px-10 hover:bg-azul-chicle hover:scale-105 rounded-lg")= text
-  if children
-    ul
-      each child in children
-        li
-          +navItem(child.href, child.text, child.children)
+  li
+    a(href=href class="bg-azul-300 py-2 px-6 hover:bg-azul-chicle hover:scale-105 rounded-lg")= text
+    if children
+      ul
+        each child in children
+          li
+            +navItem(child.href, child.text, child.children)
 
 header(class="bg-azul-rey p-4")
   div(class="container flex mx-auto justify-between items-center")
-    img(src="/public/img/logo_escrito.png",class="w-20 h-18", alt="")
-    nav(class="flex gap-3 text-white my-2 text-sm md:flex md:items-center font-bold ")
-      +navItem("", "Ayuda", null)
-      +navItem("/viajes", "Viajes", null)
-      +navItem("/", "Inicio", null)
-      +navItem("/user/login", "Iniciar Sesion", null)
+    img(src="/public/img/logo_escrito.png", class="w-20 h-18", alt="")
+    
+    //- Menú principal
+    nav(class="hidden md:flex md:items-center font-bold")
+      ul(class="flex gap-3 text-white my-2 text-sm")
+        +navItem("", "Ayuda", null)
+        +navItem("/viajes", "Viajes", null)
+        +navItem("/", "Inicio", null)
+        +navItem("/user/login", "Iniciar Sesion", null)
+
+    //- Menú de hamburguesa para versiones móviles
+    button(id="mobile-menu-btn" class="text-white md:hidden")
+      span(class="block h-1 w-6 bg-white")
+      span(class="block h-1 w-6 bg-white mt-2")
+      span(class="block h-1 w-6 bg-white mt-2")
+
+  //- Lista de navegación para versiones móviles
+  ul(id="mobile-menu" class="hidden md:hidden text-white bg-azul-rey absolute top-0 left-0 w-full mt-16")
+    +navItem("", "Ayuda", null)
+    +navItem("/viajes", "Viajes", null)
+    +navItem("/", "Inicio", null)
+    +navItem("/user/login", "Iniciar Sesion", null)
+
+script.
+  // JavaScript para mostrar/ocultar el menú en versiones móviles
+  document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+  // Ocultar el menú móvil al hacer clic en un elemento del menú
+  var mobileMenuItems = document.querySelectorAll('#mobile-menu a');
+  mobileMenuItems.forEach(function(item) {
+    item.addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+  });
+
