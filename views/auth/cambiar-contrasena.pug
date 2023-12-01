@@ -1,0 +1,25 @@
+extends ../layout/index
+
+block content
+  div.py-10
+    h1.text-center.text-4xl.my-10.font-extrabold.text-azul-rey Byte
+      span.font-normal.text-lion Buss
+    h2.text-center.text-3xl.font-extrabold.text-raisin-black #{pagina}
+  .mt-8.mx-auto.max-w-md
+    .bg-mint-cream.py-8.px-4.shadow-xl.rounded-3xl
+
+      form(action=`/user/update-password/${tokenPassword}` method="post" ).flex.items-center.flex-col.justify-center.gap-5
+        div.w-full
+          label.block.text-sm.text-caput-mortuum.mb-2.font-bold(for="nuevaContrasena") New Password
+          input#nuevaContrasena.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-old-gold.mb-2(placeholder="user@alegon.com" class="ease-in-out focus:outline-none focus:border-2 focus:border-majorelle-blue" type="password" name="nuevaContrasena")
+          label.block.text-sm.text-caput-mortuum.mb-2.font-bold(for="confirmarContrasena") Confirm Password
+          input#confirmarContrasena.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-old-gold.mb-2(placeholder="user@alegon.com" class="ease-in-out focus:outline-none focus:border-2 focus:border-majorelle-blue" type="password" name="confirmarContrasena")
+
+
+        div.flex.items-center.justify-between.w-full
+          a.text-xs.font-medium(href="/bienes-raices/user/login/register" class="hover:underline decoration-2 hover:decoration-majorelle-blue hover:scale-[1.03]") Don't have an account? 
+            span.text-majorelle-blue Register
+          a.text-xs.font-medium(href="/bienes-raices/user/login/" class="hover:underline decoration-2 hover:decoration-majorelle-blue hover:scale-[1.03]") Hav an account? 
+            span.text-majorelle-blue Log In
+
+        button(class="w-[50%] bg-reislin-black text-white font-bold p-2 cursor-pointer rounded-xl ease-in-out transition-all hover:scale-[1.05] hover:bg-english-violet/90 hover:bg-majorelle-blue active:scale-[0.95]" type="submit" value="Send") Send

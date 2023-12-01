@@ -16,7 +16,7 @@ const TbbAsiento = db.define("tbb_asiento", {
     estatus: {
         type: DataTypes.BOOLEAN, // Campo de tipo booleano.
         allowNull: false, // No permite valores nulos en este campo.
-    },    
+    },
     identificador: {
         type: DataTypes.STRING, // Campo de tipo cadena de texto sin longitud máxima especificada.
     },
@@ -26,17 +26,17 @@ const TbbAsiento = db.define("tbb_asiento", {
     autobusID: {
         type: DataTypes.INTEGER, // Tipo de datos para la clave foránea (entero)
         allowNull: false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          },
-          updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: true, // O ajusta a false si deseas permitir valores nulos
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          },
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true, // O ajusta a false si deseas permitir valores nulos
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
 });
 
 // Exporta el modelo "TbbAsiento" para que pueda ser utilizado en otros archivos.

@@ -11,7 +11,8 @@ import Persona from '../models/Persona.js';
 import Usuario from '../models/Usuario.js';
 import { generateToken } from '../lib/tokens.js';
 import { generateJwt } from '../lib/tokens.js';
-import { emailRegister } from '../lib/emails.js';
+import { emailRegister, correoRestaurarContrasena } from '../lib/emails.js';
+import bcrypt from 'bcrypt'
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
@@ -301,30 +302,33 @@ const restaurarContrasena = async (request, response) => {
   // Validar la existencia del usuario
   await check('correoElectronico').notEmpty().withMessage('El correo electronico es necesario').isEmail().withMessage('El campo Correo electrónico debe ser un Correo electrónico (usuario@dominio.ext) y no estar vacío').run(request);
   let resultado = validationResult(request);
-  const correoElectronico = request.body;
-  const usuarioExiste = Usuario.findOne({ where: correoElectronico });
+  const { correoElectronico } = request.body;
+  const usuarioExiste = await Usuario.findOne({ where: { correoElectronico } });
   // Crear el token para cambiar la contraseña
   if (resultado.isEmpty()) {
+    // Validar que el correo exista
     if (!usuarioExiste) {
-      console.log(`El usuario con correo ${correoElectronico}`);
+      // Página de error
+      console.log(`El usuario con correo ${correoElectronico} no existe`);
       response.render('templates/message.pug', {
-        page: "Recovery Password",
+        pagina: "Recuperar contraseña",
         notificationTitle: `Error Email not Found`,
         notificationMessage: "The token is invalid",
         type: "Error",
       });
     } else {
-      const tokenPassword = generateID();
+      //  Crear el token para cambiar la contraseña
+      const tokenPassword = generateToken();
       usuarioExiste.token = tokenPassword;
-      await usuarioExiste.save();
-
-      restaurarContrasena({
+      usuarioExiste.save();
+      //  Enviar correo de acceso al cambio de contraseña
+      correoRestaurarContrasena({
         correoElectronico,
         tokenPassword,
       });
-      console.log(`El usuario con correo ${correoElectronico}`);
+      console.log(`El usuario con correo ${correoElectronico} existe`);
       response.render('templates/message.pug', {
-        pagina: "Recovery Password",
+        pagina: "Recuperar contraseña",
         notificationTitle: `Email Found`,
         notificationMessage: "The token is invalid",
         type: "Info",
@@ -332,7 +336,7 @@ const restaurarContrasena = async (request, response) => {
     }
   } else {
     return response.render("auth/forgot-password.pug", {
-      pagina: "Recuperar contraseñA",
+      pagina: "Recuperar contraseña",
       showHeader: true,
       errors: resultado.array(),
       usuario: {
@@ -342,6 +346,61 @@ const restaurarContrasena = async (request, response) => {
   }
 }
 
+const cambiarContrasena = async (request, response) => {
+  const { tokenPassword } = request.params;
+
+  // Verify if token already exists
+  let userToken = await Usuario.findOne({ where: { token: tokenPassword } });
+  //  Paginas de respuesta
+  if (!userToken) {
+    console.log(`This token is invalid `);
+    response.render('templates/message.pug', {
+      pagina: "Error in Validation Process",
+      notificationTitle: "The token is invalid ",
+      notificationMessage: "The token is invalid ",
+      type: "warning"
+    })
+  } else {
+    response.render("auth/cambiar-contrasena.pug", {
+      pagina: `Cambiar contraseña`,
+      tokenPassword: tokenPassword
+    });
+  }
+}
+
+
+const actualizarContrasena = async (req, res) => {
+  const { tokenPassword } = req.params;
+  const { nuevaContrasena } = req.body;
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedContrasena = await bcrypt.hash(nuevaContrasena, salt);
+
+  // Verify if token already exists
+  let userToken = await Usuario.findOne({ where: { token: tokenPassword } });
+  if (!userToken) {
+    console.log(`This token is invalid `);
+    res.render('templates/message.pug', {
+      page: "Error in Validation Process",
+      notificationTitle: "The token is invalid ",
+      notificationMessage: "The token is invalid ",
+      type: "Warning"
+    })
+  } else {
+    console.log(`Intentando actualizar la contraseña en la bd`);
+    userToken.token = null;
+    userToken.contrasena = hashedContrasena;
+    userToken.save();
+    res.render('templates/message.pug', {
+      page: "Error in Validation Process",
+      notificationTitle: "Change Password Success ",
+      notificationMessage: "The token is invalid ",
+      type: "Info"
+    })
+  }
+
+}
+
 export {
   formularioLogin,
   formularioRegistro,
@@ -349,5 +408,7 @@ export {
   tiket,
   insertarUsuario,
   confirmarCuenta,
-  restaurarContrasena
+  restaurarContrasena,
+  cambiarContrasena,
+  actualizarContrasena
 }
