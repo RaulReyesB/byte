@@ -16,6 +16,8 @@ import bcrypt from 'bcrypt'
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
+
+
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
@@ -133,7 +135,7 @@ const insertarUsuario = async (request, response) => {
 
   await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
 
-  await check("password").notEmpty().withMessage("Este campo es OBLIGATORIO: PASSWORD").isLength({ min: 8 }).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({ max: 20 }).withMessage("Password must contain less than 20 characters").equals(request.body.cpassword).withMessage("Ambas contraseñas deben ser iguales").run(request)
+  await check("password").notEmpty().withMessage("Este campo es OBLIGATORIO: Contraseña").isLength({ min: 8 }).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({ max: 20 }).withMessage("Password must contain less than 20 characters").equals(request.body.cpassword).withMessage("Ambas contraseñas deben ser iguales").run(request)
 
   await check("cp").notEmpty().withMessage("Este campo es OBLIGATORIO: CODIGO POSTAL").isLength({ min: 5, max: 5 }).withMessage("Codigo postal invalido").run(request)
 
@@ -151,14 +153,14 @@ const insertarUsuario = async (request, response) => {
     const token = generateToken();
     console.log(`Intentando insertar al usuario: ${name}, con el email: ${email}, con la contraseña: ${password} y token: ${token}`);
     console.log("Insertando los datos de la Persona, antes de crear al Usuario...")
-    console.log(`apat = ${apat}`)
+    console.log(`apat = ${gen}`)
     let lastId;
 
     await Persona.create({
       nombre: name,
       apellidoPaterno: apat,
       apellidoMaterno: amat,
-      fechaDeNacimiento: birthdate,
+      fechaNacimiento: birthdate,
       genero: gen,
       codigoPostal: cp,
       direccion: dir,
@@ -398,8 +400,95 @@ const actualizarContrasena = async (req, res) => {
       type: "Info"
     })
   }
-
 }
+// Authenticate User
+const autenticarUsuario = async (request, response) => {
+
+  // Validar los datos del formulario
+  await check('correoElectronico').notEmpty().withMessage('Email field is required').isEmail().withMessage('The Email field should be an Email (user@domain.ext) and not empty').run(request);
+  await check('contrasena').notEmpty().withMessage('contrasena field is required').isLength({
+    min: 8,
+    max: 20
+  }).withMessage('The contrasena is formed between 8 and 20 characters.').run(request);
+
+  // Desestructurar los datos del body (formulario)
+  const { correoElectronico, contrasena } = request.body;
+
+  let result = validationResult(request);
+
+  console.log(`El usuario: ${correoElectronico} está intentando autenticarse.`);
+
+  if (result.isEmpty()) {
+    // Validar que exista el correo electrónico
+    const userExists = await Usuario.findOne({ where: { correoElectronico } });
+    console.log(userExists)
+    // Validar que el correo exista
+    if (!userExists) {
+      // Página de error
+      response.render('templates/message.pug', {
+        pagina: "Error al iniciar sesion",
+        notificationTitle: `Error Email not Found`,
+        notificationMessage: `The user with email: ${correoElectronico} do not exist.`,
+        type: "Error"
+      })
+    } else {
+      //  Validar que el usuario esté validado
+      if (!userExists.verificado) {
+        console.log(`El usuario con correo ${correoElectronico}`);
+        response.render('templates/message.pug', {
+          pagina: "Error in login",
+          notificationTitle: ` Account is not validated `,
+          notificationMessage: `The user associated to the email: ${correoElectronico} is not verified, please check your email.`,
+          type: "Warning"
+        })
+
+      } else {
+        //  Validar la contraseña ingresada con la asignada al correo electrónico (usuario)
+        if (userExists.verifyPassword(contrasena)) {
+          //console.log(nombre)
+          //let usuarioNombre = await Persona.findOne({ where: { nombre } });
+
+          //  Generar el Token de Acceso (JWT)
+          const token = generateJwt(userExists.id); // Enviar userID
+          console.log(`JWT generado es: ${token}`);
+
+          // TODO: Almacenar el JWT en una cookie
+          // TODO: Redireccionar al home
+          response.cookie('_token', token, {
+            httpOnly: true,
+            //secure: true, // option to configure https protocol certify
+            //usuario: true,
+            //nombre: nombre
+          }).redirect('/');
+
+        } else {
+          response.render("auth/login.pug", {
+            pagina: `Inicar Sesion`,
+
+            errors: [{
+              msg: "The email or password doesn't match."
+            }],
+            //! Sending params to pug 
+            usuario: {
+              correoElectronico: request.body.correoElectronico
+            }
+          });
+        }
+      }
+    }
+  } else {
+    return response.render("auth/login.pug", {
+      pagina: "Iniciar Sesion",
+      showHeader: true,
+      errors: result.array(),
+      //! Sending params to pug 
+      usuario: {
+        correoElectronico: request.body.correoElectronico
+      }
+    });
+  }
+}
+
 
 export {
   formularioLogin,
@@ -410,5 +499,6 @@ export {
   confirmarCuenta,
   restaurarContrasena,
   cambiarContrasena,
-  actualizarContrasena
+  actualizarContrasena,
+  autenticarUsuario
 }

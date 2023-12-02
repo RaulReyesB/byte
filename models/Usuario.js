@@ -30,9 +30,12 @@ const Usuario = db.define("tbb_usuarios",
 
       }
 
-    }  }
+    }
+    }
 );
 // compara contraseñas por medio del hasing 
-
+Usuario.prototype.verifyPassword = function(contrasena) {
+  return bcrypt.compareSync(contrasena, this.contrasena);
+}
 
 export default Usuario
