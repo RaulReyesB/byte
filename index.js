@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import session from 'express-session'; // Agregado: importar express-session
 import passport from 'passport';
+
 import './models/asociaciones.js'
 import { DataTypes } from 'sequelize';
 import express from "express";
@@ -19,10 +20,11 @@ import Ubicacion from './models/ubicacion.js';
 import path from "path";
 import Viaje from './models/viaje.js';
 import viajesRoutes from './routes/viajesRoutes.js'
+import { request, response } from "express";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-const app = express()
+const app = express();
 
 // Implementacion de la bd atravez de un trycatch
 try {
@@ -64,10 +66,15 @@ app.use(express.urlencoded({ extended: false }))
 
 
 // Configurar express-session
-app.use(session({
+/*app.use(session({
   secret: process.env.CLIENTE_SECRETO, // Cambia esto con una clave segura
   resave: false,
   saveUninitialized: false,
+}));*/
+app.use(session({
+  secret: process.env.CLIENTE_SECRETO,
+  resave: true,
+  saveUninitialized: true
 }));
 
 // Inicializar Passport
@@ -86,34 +93,60 @@ app.use('/', generalRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
 
+
+
+
 app.get('/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] })
+  passport.authenticate('google', {
+    scope: [
+      'https://www.googleapis.com/auth/plus.login',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/user.addresses.read',
+      'https://www.googleapis.com/auth/user.birthday.read',
+      'https://www.googleapis.com/auth/user.phonenumbers.read',],
+  })
 );
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    res.redirect('/');
-    var google = require('googleapis').google;
-var OAuth2 = google.auth.OAuth2;
-
-var oauth2Client = new OAuth2();
-oauth2Client.setCredentials({access_token: 'https://www.googleapis.com/oauth2/v1/certs'});
-
-var oauth2 = google.oauth2({
-  auth: oauth2Client,
-  version: 'v2'
-});
-
-oauth2.userinfo.get(
-  function(err, res) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(res);
-    }
+  passport.authenticate('google', {
+    failureRedirect: '/',
   }
-);
+  ),
+  (request, response) => {
+    response.redirect('http://localhost:3000/templates/message');
+
+    emailRegister({ name: nuevaPersona.nombre, correoElectronico: correoElectronico, token: newUser.token });
+
+    const { displayName, name, emails, gender, birthday, addresses, phoneNumbers } = request.user;
+    console.log(req.url);
+    console.log('Nombre del usuario:', displayName || name);
+    console.log('Correo electrónico:', emails && emails.length > 0 ? emails[0].value : 'N/A');
+    console.log('Género:', gender || 'N/A');
+    console.log('Fecha de nacimiento:', birthday || 'N/A');
+    console.log('Direcciones:', addresses || 'N/A');
+    console.log('Números de teléfono:', phoneNumbers || 'N/A');
+
+    var google = require('googleapis').google;
+    var OAuth2 = google.auth.OAuth2;
+
+    var oauth2Client = new OAuth2();
+    oauth2Client.setCredentials({ access_token: 'https://www.googleapis.com/oauth2/v1/certs' });
+
+    var oauth2 = google.oauth2({
+      auth: oauth2Client,
+      version: 'v2'
+    });
+
+    oauth2.userinfo.get(
+      function (err, res) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(res);
+        }
+      }
+    );
 
   }
 );
@@ -130,3 +163,4 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+

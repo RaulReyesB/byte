@@ -4,9 +4,10 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import express from 'express';
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+//import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { request, response } from "express";
 import { check, validationResult } from "express-validator";
+import GoogleStrategy from 'passport-google-oauth20'
 import Persona from '../models/Persona.js';
 import Usuario from '../models/Usuario.js';
 import { generateToken } from '../lib/tokens.js';
@@ -43,58 +44,70 @@ const formularioOlvidoContra = (request, response) => {
   })
 }
 
-const tiket = (request, response) => {
-  response.render('auth/ticket.pug', {
-    pagina: tiket
-  })
-}
+
 
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENTE_ID,
   clientSecret: process.env.CLIENTE_SECRETO,
-  callbackURL: "http://localhost:3000/google",
-}, async (accessToken, refreshToken, profile, done) => {
-  const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+  callbackURL: process.env.REDIRECCION_URI,
 
-  if (!email) {
-    // Manejar el caso en el que no se proporciona el correo electrónico en el perfil
+}, async (accessToken, refreshToken, profile, done) => {
+
+  const correoElectronico = profile && profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+  const token = generateToken();
+
+  if (!correoElectronico) {
     return done(null, false, { message: 'No se proporcionó un correo electrónico en el perfil de Google.' });
   }
-  const userExists = await Persona.findOne({ where: { email: email } });
 
-  // Puedes verificar si el usuario ya existe en tu base de datos y realizar la lógica necesaria aquí
+  // Obtener datos adicionales del perfil de Google
+  const {
+    displayName,
+    name,
+    family_name: apellidoPaterno,
+    given_name: apellidoMaterno,
+    birthday,
+    gender,
+    address,
+    phone_number,
+    postal_code: codigoPostal
+  } = profile._json;
+
+
+  // Verificar si el usuario ya existe en tu base de datos
+  const userExists = await Usuario.findOne({ where: { correoElectronico: correoElectronico } });
+
   if (userExists) {
-    return response.render("auth/register.pug", {
-      pagina: "Creando nueva cuenta",
-      showHeader: true,
-      errors: [{ msg: `El usuario con correo ${email} ya esta registrado, intenta con otro correo` }],
-      user: {
-        name: request.body.name,
-        email: request.body.email
-      }
+    return done(null, false, {
+      message: `El usuario con correo ${correoElectronico} ya está registrado, intenta con otro correo`
     });
   } else {
-    const newUser = await Persona.create({
-      name,
-      email,
-      password,
-      token
+    // Crear nuevo usuario en la base de datos
+    const nuevaPersona = await Persona.create({
+      nombre: displayName || name,
+      apellidoPaterno,
+      apellidoMaterno,
+      fechaNacimiento: birthday,
+      genero: gender,
+      direccion: address,
+      telefono: phone_number,
+      codigoPostal,
+    })
+    console.log('Nuevo Usuario:', nuevaPersona);
+    const newUser = await Usuario.create({
+      correoElectronico: correoElectronico,
+      contrasena: token, // Reemplazar con la contraseña hash
+      token: token // Reemplazar con la lógica para generar el token
     });
 
-    // Enviar el correo de confirmacion
-    emailRegister({ name, email, token });
-
-    response.render("templates/message.pug", {
-      pagina: "Info Message",
-      showHeader: true,
-      type: "Info",
-      notificationTitle: "Usuario creado",
-      notificationMessage: `The user associated to: ${email} has been created, please check your email for account verification`
-    })
+    // Enviar el correo de confirmación
+    emailRegister({ name: nuevaPersona.nombre, correoElectronico: correoElectronico, token: newUser.token });
+    
   }
-  // profile contiene la información del usuario obtenida de Google
-  return done(null, profile);
-}));
+
+  
+}
+));
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -103,21 +116,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
-
-
-const recuperaContrasenia = async (request, response) => {
-  const { email } = request.body;
-  await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
-
-  let resultValidate = validationResult(req);
-  const userExists = await User.findOne({
-    where: {
-      email: req.body.email,
-    },
-  });
-
-
-}
 
 
 //llamada via http request, response 
@@ -494,7 +492,6 @@ export {
   formularioLogin,
   formularioRegistro,
   formularioOlvidoContra,
-  tiket,
   insertarUsuario,
   confirmarCuenta,
   restaurarContrasena,
