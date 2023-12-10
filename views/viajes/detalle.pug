@@ -2,9 +2,12 @@ extends ../layout/index
 
 block content
   div(class="bg-gray-100 min-h-screen items-center justify-center py-12 px-4 sm:px-6 lg:px-8")
-      div(class="max-w-4xl mx-auto flex flex-col")
-        h1.text-4xl.text-black.font-bold.mb-8.text-center Asientos de ida
-        div(class="bg-white rounded-lg shadow overflow-hidden sm:divide-y sm:divide-gray-200")
+    div(class="max-w-4xl mx-auto flex flex-col")
+      h1.text-4xl.text-black.font-bold.mb-8.text-center Asientos de ida
+
+    if horarios && horarios.length > 0
+      each horario in horarios
+        div(class="bg-white rounded-lg shadow overflow-hidden sm:divide-y sm:divide-gray-200 mb-10")
           div(class="px-4 py-4 sm:px-6")
             div(class="flex justify-between items-center")
               // Información de origen y destino
@@ -13,9 +16,17 @@ block content
                 span= viaje.origen
                 span.font-bold Destino:
                 span= viaje.destino
+              // Horario
+              div(class="flex flex-col")
+                span.font-bold Hora de Salida:
+                span= horario.horario_salida
+                span.font-bold Hora de Llegada:
+                span= horario.horario_llegada
               // Precio
-              p(class="text-lg font-semibold text-gray-900") $#{typeof parseFloat(viaje.precio) === 'number' ? parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX
+              p(class="text-lg font-semibold text-gray-900") #{typeof parseFloat(viaje.precio) === 'number' ? 'Total: $' + parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX
 
           div(class="px-4 py-4 sm:px-6")
             a(href="/PreciosIda" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out")
               span Ver detalles
+    else
+      p No hay horarios disponibles
