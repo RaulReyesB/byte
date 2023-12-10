@@ -25,24 +25,15 @@ block content
   div(class="bg-azul-rey w-full h-10 mt-5 ")
   h2.text-center.text-black.font-bold.block.text-3xl.uppercase.mt-8.mb-10 Viajes Recomendados
   section(class="flex justify-evenly items-center w-full h-80 mb-20  ")
-    div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
-      img(src="/public/img/Pachuca.jpg" class="w-full h-40" alt="")
-      p(class="text-center text-lg") Huauchinango - Mexico
-      p(class="text-center text-lg mt-2") Viaje Redondo 
-      p(class="text-center text-lg mt-2") $699
-      a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-40 ml-20 mt-1" type="submit" value="Comprar." href="") Comprar.
-    div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
-      img(src="/public/img/Puebla.jpg" class="w-full h-40" alt="")
-      p(class="text-center text-lg") Huauchinango - Mexico
-      p(class="text-center text-lg mt-2") Viaje Redondo 
-      p(class="text-center text-lg mt-2") $699
-      a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-40 ml-20 mt-1" type="submit" value="Comprar." href="" ) Comprar.
-    div(class="border-solid border-azul-rey w-80 h-80 border-2 shadow-lg")
-      img(src="/public/img/queretaro.jpg" class="w-full h-40" alt="")
-      h2.text-center.text-3xl.font-extrabold.text-snow.text-black
-      p(class="text-center text-lg mt-2" value="Viajes.id") 
-      p(class="text-center text-lg mt-2") Viaje Redondo 
-      p(class="text-center text-lg mt-2") $699
-      a#comprar(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-40 ml-20 mt-1" type="submit" href="/viajes/horarios") Comprar.
+    each viaje in viajes
+      div(class="border-solid border-azul-rey w-80 h-96 border-2 shadow-lg")
+        img(src=`/public/img/${viaje.imagen}` class="w-full h-40" alt="")
+        p(class="text-center text-lg text-lion mt-3")= viaje.origen
+          span(class="text-center text-black")     Con destino a:
+        p(class="text-center text-lg text-lion")= viaje.destino
+        p(class="text-center text-lg")= viaje.descripcion
+        // Agrega esta línea para depurar
+        p(class="text-center text-lg mt-3") #{typeof parseFloat(viaje.precio) === 'number' ? '$' + parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'}
+        a#vermas(class="text-white font-bold py-3 rounded-xl text-center mt-3 bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-60 ml-10" type="submit" value="Ver mas." href=`/viajes/detalle/${viaje.id}`).text-center Ver mas.
   div(class="flex items-center justify-center")
-    a#vermas(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-80" type="submit" value="Ver mas." href="/viajes").text-center Ver mas.
+    a#vermas(class="text-white font-bold py-3 rounded-xl text-center bg-azul-fuerte hover:bg-azul-chicle cursor-pointer w-full md:w-80" type="submit" value="Ver mas." href="/viajes").text-center Mas Opciones.
