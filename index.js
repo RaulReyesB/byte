@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import cookieParser from 'cookie-parser';
 import session from 'express-session'; // Agregado: importar express-session
 import passport from 'passport';
-
+import protegerRuta from './middleware/protegerRutas.js';
 import './models/asociaciones.js'
 import { DataTypes } from 'sequelize';
 import express from "express";
@@ -18,7 +19,7 @@ import TbbReservacion from "./models/resevacion.js";
 import TbbRuta from "./models/ruta.js";
 import Ubicacion from './models/ubicacion.js';
 import path from "path";
-import Viaje from './models/viaje.js';
+import Viaje from './models/Viaje.js';
 import viajesRoutes from './routes/viajesRoutes.js'
 import { request, response } from "express";
 import dotenv from "dotenv";
@@ -46,7 +47,7 @@ try {
     }],
   })
 
-
+  app.use(cookieParser());
 
 } catch (error) {
   console.log(error);
@@ -92,9 +93,6 @@ app.use(passport.session());
 app.use('/', generalRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
-
-
-
 
 app.get('/google',
   passport.authenticate('google', {

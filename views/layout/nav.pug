@@ -10,14 +10,18 @@ mixin navItem(href, text, children)
 header(class="bg-azul-rey p-4")
   div(class="container flex mx-auto justify-between items-center")
     img(src="/public/img/logo_escrito.png", class="w-20 h-18", alt="")
-    
+
     //- Menú principal
     nav(class="hidden md:flex md:items-center font-bold")
       ul(class="flex gap-3 text-white my-2 text-sm")
         +navItem("", "Ayuda", null)
         +navItem("/viajes", "Viajes", null)
         +navItem("/", "Inicio", null)
-        +navItem("/user/login", "Iniciar Sesion", null)
+
+        - if (user) // Si el usuario está autenticado, muestra "Cerrar Sesión"
+          +navItem("/logout", "Cerrar Sesión", null)
+        - else // Si no está autenticado, muestra "Iniciar Sesión"
+          +navItem("/user/login", "Iniciar Sesión", null)
 
     //- Menú de hamburguesa para versiones móviles
     button(id="mobile-menu-btn" class="text-white md:hidden")
@@ -30,7 +34,11 @@ header(class="bg-azul-rey p-4")
     +navItem("", "Ayuda", null)
     +navItem("/viajes", "Viajes", null)
     +navItem("/", "Inicio", null)
-    +navItem("/user/login", "Iniciar Sesion", null)
+
+    - if (user) // Si el usuario está autenticado, muestra "Cerrar Sesión"
+      +navItem("/logout", "Cerrar Sesión", null)
+    - else // Si no está autenticado, muestra "Iniciar Sesión"
+      +navItem("/user/login", "Iniciar Sesión", null)
 
 script.
   // JavaScript para mostrar/ocultar el menú en versiones móviles
@@ -45,4 +53,3 @@ script.
       document.getElementById('mobile-menu').classList.add('hidden');
     });
   });
-

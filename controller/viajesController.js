@@ -6,7 +6,7 @@ import Result from "postcss/lib/result";
 
 const viajes = (request, response) => {
   response.render('auth/viajes', {
-    page: "Viajes",
+    pagina: "Viajes",
     showHeader: true,
     showFooter: true,
   })
@@ -14,7 +14,7 @@ const viajes = (request, response) => {
 
 const horarios = (request, response) => {
   response.render('auth/horarios', {
-    page: "Horarios",
+    pagina: "Horarios",
     showFooter: true,
     showHeader: true,
   })
@@ -23,7 +23,7 @@ const horarios = (request, response) => {
 
 const precios = (request, response) => {
   response.render('auth/preciosIda', {
-    page: "Precios",
+    pagina: "Precios",
     showFooter: true,
     showHeader: true
   })

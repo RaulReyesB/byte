@@ -29,7 +29,7 @@ block content
             // Campo de nombre
             div
               label.block.text-sm.uppercase.text-white.mb-3.font-bold Nombre 
-              input#name.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Nombre" name="name" value=user ? user.name : '' required)
+              input#nombre.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="Nombre" name="nombre" value=user ? user.name : '' required)
 
             // Filas de dos elementos en pantallas medianas (md) y más grandes
             div(class="md:flex md:gap-4")
@@ -46,17 +46,17 @@ block content
             // Campo de correo electrónico
             div
               label.block.text-sm.uppercase.text-white.mb-3.font-bold Email:
-              input#email.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="user@domain.com" name="email" value=user ? user.email : '' required)
+              input#correoElectronico.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="user@domain.com" name="correoElectronico" value=user ? user.email : '' required)
 
             // Campo de contraseña
             div 
-              label.block.text-sm.uppercase.text-white.mb-3.font-bold(for="password") Password:
-              input#password.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Enter your password" name="password" type="password" required)
+              label.block.text-sm.uppercase.text-white.mb-3.font-bold(for="password") Contraseña:
+              input#contrasena.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Ingresa tu contraseña" name="contrasena" type="password" required)
 
             // Campo de confirmación de contraseña
             div 
-              label.block.text-sm.uppercase.text-white.mb-3.font-bold Confirm Password:
-              input#cpassword.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Renter your password" name="cpassword" type="password" required)
+              label.block.text-sm.uppercase.text-white.mb-3.font-bold Confirmar Contraseña:
+              input#contrasena2.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white.bg-white(placeholder="Reingresa tu contraseña" name="contrasena2" type="password" required)
 
             // Filas de dos elementos en pantallas medianas (md) y más grandes
             div(class="md:flex md:gap-4")
@@ -93,10 +93,10 @@ block content
                 input#tel.w-full.px-3.py-2.border.border.golden-brown.rounded-sm.place-holder-white-50.bg-white(placeholder="###-###-####" name="tel" value=user ? user.tel : ''  required)
             // Enlace para iniciar sesión con Google
             div.flex.items-center.justify-between
-              a.text-xs.text-white(href="/user/login" class="hover:underline decoration-4 decoration-azul-chicle") If you have an account, please Login 
-              a.text-xs.text-white(href="/user/forgot-password" class="hover:underline decoration-4 decoration-azul-chicle") Forgot your password? Recover it
+              a.text-xs.text-white(href="/user/login" class="hover:underline decoration-4 decoration-azul-chicle") Tienes una cuenta? Inicia sesion 
+              a.text-xs.text-white(href="/user/forgot-password" class="hover:underline decoration-4 decoration-azul-chicle") Olvidaste tu contrasena? Recuperala
               a(href="/google" class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer")| Iniciar sesión con Google
 
             // Botón de registro
             div
-              input#button_register.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer" type="submit" value="Create Account")
+              input#button_register.w-full.bg-golden-brown(class="text-white font-bold py-3 rounded-xl bg-azul-fuerte hover:bg-azul-chicle cursor-pointer" type="submit" value="Crear Cuenta")

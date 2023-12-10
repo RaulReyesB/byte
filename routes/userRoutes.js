@@ -1,6 +1,6 @@
 import express, {Router} from 'express'
 import passport from 'passport';
-import { formularioLogin,formularioOlvidoContra,formularioRegistro, insertarUsuario, confirmarCuenta, restaurarContrasena,cambiarContrasena, actualizarContrasena, autenticarUsuario} from '../controller/userControllers.js';
+import { formularioLogin,formularioOlvidoContra,formularioRegistro, insertarUsuario, confirmarCuenta, restaurarContrasena,cambiarContrasena, actualizarContrasena, autenticarUsuario, cerrarSesion} from '../controller/userControllers.js';
 
 const router = express.Router();
 
@@ -24,6 +24,8 @@ router.post('/', /*authenticateUser*/);
 
 router.get('/', /*homePage*/);
 
+//Cerrar Sesion
+router.get('/', cerrarSesion);
 
 
 export default router;

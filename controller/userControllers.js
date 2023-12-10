@@ -84,7 +84,7 @@ passport.use(new GoogleStrategy({
   } else {
     // Crear nuevo usuario en la base de datos
     const nuevaPersona = await Persona.create({
-      nombre: displayName || name,
+      nombre: displayName || nombre,
       apellidoPaterno,
       apellidoMaterno,
       fechaNacimiento: birthday,
@@ -102,10 +102,10 @@ passport.use(new GoogleStrategy({
 
     // Enviar el correo de confirmación
     emailRegister({ name: nuevaPersona.nombre, correoElectronico: correoElectronico, token: newUser.token });
-    
+
   }
 
-  
+
 }
 ));
 
@@ -123,17 +123,16 @@ passport.deserializeUser((obj, done) => {
 const insertarUsuario = async (request, response) => {
 
   console.log("El usuario está intentando registrar sus datos en la base de datos");
-  console.log(`Nombre: ${request.body.name}`);
-  const { name, email, password, birthdate, apat, amat, gen, cp, dir, tel } = request.body;
+  console.log(`Nombre: ${request.body.nombre}`);
+  const { nombre, correoElectronico, contrasena, birthdate, apat, amat, gen, cp, dir, tel } = request.body;
 
-
-  await check("name").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({ min: 4 }).withMessage("El nombre debe contener 4 caracteres como minimo").isLength({ max: 15 }).withMessage("El nombre debe contener 15 caracteres maximo").run(request)
+  await check("nombre").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({ min: 4 }).withMessage("El nombre debe contener 4 caracteres como minimo").isLength({ max: 15 }).withMessage("El nombre debe contener 15 caracteres maximo").run(request)
 
   await check("apat").notEmpty().withMessage("Este campo es OBLIGATORIO: NOMBRE").isLength({ min: 4 }).withMessage("El apellido debe contener 4 caracteres como minimo").isLength({ max: 15 }).withMessage("El apellido debe contener 15 caracteres maximo").run(request)
 
-  await check("email").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
+  await check("correoElectronico").notEmpty().withMessage("Este campo es OBLIGATORIO: EMAIL").isEmail().withMessage("El valor debe estar en formato User@domain.ext").run(request)
 
-  await check("password").notEmpty().withMessage("Este campo es OBLIGATORIO: Contraseña").isLength({ min: 8 }).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({ max: 20 }).withMessage("Password must contain less than 20 characters").equals(request.body.cpassword).withMessage("Ambas contraseñas deben ser iguales").run(request)
+  await check("contrasena").notEmpty().withMessage("Este campo es OBLIGATORIO: Contraseña").isLength({ min: 8 }).withMessage("la contraseña debe contener al menos 8 caracteres").isLength({ max: 20 }).withMessage("Password must contain less than 20 characters").equals(request.body.contrasena2).withMessage("Ambas contraseñas deben ser iguales").run(request)
 
   await check("cp").notEmpty().withMessage("Este campo es OBLIGATORIO: CODIGO POSTAL").isLength({ min: 5, max: 5 }).withMessage("Codigo postal invalido").run(request)
 
@@ -149,13 +148,13 @@ const insertarUsuario = async (request, response) => {
   if (resultadoValidacion.isEmpty()) {
     // Si el usuario pasa todas las validaciones, continuas con el registro
     const token = generateToken();
-    console.log(`Intentando insertar al usuario: ${name}, con el email: ${email}, con la contraseña: ${password} y token: ${token}`);
+    console.log(`Intentando insertar al usuario: ${nombre}, con el email: ${correoElectronico}, con la contraseña: ${contrasena} y token: ${token}`);
     console.log("Insertando los datos de la Persona, antes de crear al Usuario...")
     console.log(`apat = ${gen}`)
     let lastId;
 
     await Persona.create({
-      nombre: name,
+      nombre: nombre,
       apellidoPaterno: apat,
       apellidoMaterno: amat,
       fechaNacimiento: birthdate,
@@ -174,7 +173,7 @@ const insertarUsuario = async (request, response) => {
 
     console.log(`Se a creado un usuario con id ${lastId}`)
     // Validation duplicate user
-    const userExists = await Usuario.findOne({ where: { correoElectronico: email } });
+    const userExists = await Usuario.findOne({ where: { correoElectronico: correoElectronico } });
 
 
     // Validación de edad del usuario
@@ -185,8 +184,8 @@ const insertarUsuario = async (request, response) => {
         showHeader: true,
         errors: [{ msg: "Fecha de nacimiento requerida." }],
         user: {
-          name: request.body.name,
-          email: request.body.email
+          name: request.body.nombre,
+          email: request.body.correoElectronico
         }
       });
     }
@@ -202,8 +201,8 @@ const insertarUsuario = async (request, response) => {
         showHeader: true,
         errors: [{ msg: "Tienes que tener al menos 18 años para registrarte." }],
         user: {
-          name: request.body.name,
-          email: request.body.email
+          name: request.body.nombre,
+          email: request.body.correoElectronico
         }
       });
     }
@@ -213,10 +212,10 @@ const insertarUsuario = async (request, response) => {
         return response.render("auth/register.pug", {
           pagina: "Creando nueva cuenta",
           showHeader: true,
-          errors: [{ msg: `El usuario con correo ${email} ya esta registrado, intenta con otro correo` }],
+          errors: [{ msg: `El usuario con correo ${correoElectronico} ya esta registrado, intenta con otro correo` }],
           user: {
-            name: request.body.name,
-            email: request.body.email
+            name: request.body.nombre,
+            email: request.body.correoElectronico
           }
         });
       }
@@ -224,22 +223,22 @@ const insertarUsuario = async (request, response) => {
       else { // si el usuario no existe, se crea
 
         Usuario.create({
-          correoElectronico: email,
-          contrasena: password,
+          correoElectronico: correoElectronico,
+          contrasena: contrasena,
           token: token,
           Persona_ID: lastId
         })
       }
       // Enviar el correo de confirmacion
 
-      emailRegister({ name, email, token });
+      emailRegister({ nombre, correoElectronico, token });
 
       response.render("templates/message.pug", {
-        pagina: "Info Message",
+        pagina: "Informacion",
         showHeader: true,
         type: "Info",
         notificationTitle: "Usuario creado",
-        notificationMessage: `The user associated to: ${email} has been created, please check your email for account verification`
+        notificationMessage: `El usuario asociado a: ${correoElectronico} ha sido creado, por favor revisa tu correo electrónico para verificación de cuenta`
       })
     }
   } else {
@@ -249,8 +248,8 @@ const insertarUsuario = async (request, response) => {
       showHeader: true,
       errors: resultadoValidacion.array(),
       user: {
-        name: request.body.name,
-        email: request.body.email,
+        name: request.body.nombre,
+        email: request.body.correoElectronico,
         birthdate: request.body.birthdate,
         apat: request.body.apat,
         amat: request.body.amat,
@@ -445,20 +444,12 @@ const autenticarUsuario = async (request, response) => {
         if (userExists.verifyPassword(contrasena)) {
           //console.log(nombre)
           //let usuarioNombre = await Persona.findOne({ where: { nombre } });
+          const expirationTime = 15 * 60 * 1000; // 15 minutos en milisegundos
 
           //  Generar el Token de Acceso (JWT)
-          const token = generateJwt(userExists.id); // Enviar userID
+          const token = generateJwt(userExists.id);
           console.log(`JWT generado es: ${token}`);
-
-          // TODO: Almacenar el JWT en una cookie
-          // TODO: Redireccionar al home
-          response.cookie('_token', token, {
-            httpOnly: true,
-            //secure: true, // option to configure https protocol certify
-            //usuario: true,
-            //nombre: nombre
-          }).redirect('/');
-
+          response.cookie('_token', token, { maxAge: expirationTime, httpOnly: true, secure: false }).redirect('/');
         } else {
           response.render("auth/login.pug", {
             pagina: `Inicar Sesion`,
@@ -487,6 +478,12 @@ const autenticarUsuario = async (request, response) => {
   }
 }
 
+const cerrarSesion = (req, res) => {
+  res.clearCookie('_token');
+  res.redirect('/login'); // O redirige a la página principal u otra página de tu elección
+};
+
+
 
 export {
   formularioLogin,
@@ -497,5 +494,6 @@ export {
   restaurarContrasena,
   cambiarContrasena,
   actualizarContrasena,
-  autenticarUsuario
+  autenticarUsuario,
+  cerrarSesion
 }

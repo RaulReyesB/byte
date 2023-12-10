@@ -3,7 +3,7 @@ import TbbAutobus from './autobus.js';
 import TbbAsiento from './asiento.js';
 import Persona from './Persona.js';
 import TbbEmpleado from './empleado.js';
-import TbbViajes from './viaje.js';
+import TbbViajes from './Viaje.js';
 import TbbRuta from './ruta.js';
 import Usuario from './Usuario.js';
 import TbbUbicacion from './ubicacion.js';
