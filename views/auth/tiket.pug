@@ -1,0 +1,19 @@
+extends ../layout/index2
+
+block content
+      h1 Creando PDF con Node.js
+      a(href="https://parzibyte.me/blog") By Parzibyte
+      p Soy HTML que será convertido a un PDF
+      p El valor pasado por Node es: {{valor}}
+      pre
+        code const saludo = "Hola mundo";
+      p También puedes usar imágenes de internet:
+      img(
+        alt="Imagen de Parzibyte" 
+        src="https://github.com/parzibyte.png"
+        )
+      p O imágenes locales:
+      img(
+        alt="Imagen de una abeja" 
+        src="file:///C:/Users/parzibyte/Documents/desarrollo/node/crear-pdf/abeja.jpg"
+        )
