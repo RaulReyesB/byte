@@ -1,0 +1,15 @@
+extends ../layout/index
+
+block content
+  div(class="container mx-auto mt-10 p-8 max-w-md border border-gray-300 shadow-lg rounded-md")
+    h1(class="text-2xl font-bold mb-6") Selecciona la cantidad de boletos para el viaje
+
+    form(action=`/viajes/detallesViaje/${viajeId || 0}?cantidadBoletos=${cantidadBoletos || 0}` method="get" class="space-y-4")
+      div(class="flex flex-col")
+        label(for="cantidadBoletos" class="text-sm font-medium text-gray-600") Cantidad de Boletos (máximo 4):
+        input(type="number" id="cantidadBoletos" name="cantidadBoletos" min="1" max="4" required class="py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500")
+
+      div(class="flex items-center justify-center")
+        button(type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out") Reservar Boletos
+
+
