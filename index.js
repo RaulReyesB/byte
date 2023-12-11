@@ -21,6 +21,7 @@ import Ubicacion from './models/ubicacion.js';
 import path from "path";
 import Viaje from './models/Viaje.js';
 import viajesRoutes from './routes/viajesRoutes.js'
+import compraRoutes from './routes/compraRoutes.js'
 import { request, response } from "express";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
@@ -93,6 +94,8 @@ app.use(passport.session());
 app.use('/', generalRoutes)
 app.use('/user', userRoutes)
 app.use('/viajes', viajesRoutes)
+
+
 
 app.get('/google',
   passport.authenticate('google', {

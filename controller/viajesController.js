@@ -70,7 +70,7 @@ const detalleViaje = async (request, response) => {
 const obtenerDetallesViaje = async (request, response) => {
   try {
     const viajeId = request.params.id;
-    
+
     // Aquí obtienes la información del viaje, incluyendo horarios si es necesario
     const viaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
 
@@ -90,10 +90,42 @@ const obtenerDetallesViaje = async (request, response) => {
   }
 };
 
+const registroBoleto = async (request, response) => {
+  try {
+    const viajeId = request.params.id;
+    const asientoSeleccionado = request.body.asiento; // Modificación aquí
+    //console.log(asientoSeleccionado);
+
+    // Obtener datos del viaje según el ID utilizando el modelo Viaje
+    const viaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
+
+    response.render('./compra/registro.pug', {
+      viaje,
+      horarios: viaje.horarios,
+      asientoSeleccionado,
+      pagina: "Registro del Boleto",
+      showHeader: true,
+      showFooter: true,
+    });
+  } catch (error) {
+    console.error(error);
+    response.status(500).render('error', {
+      errorMessage: 'Error interno del servidor',
+    });
+  }
+};
+
+
+
+
+
+
 export {
   viajes,
   horarios,
   precios,
   detalleViaje,
-  obtenerDetallesViaje
+  obtenerDetallesViaje,
+  registroBoleto
+
 } 

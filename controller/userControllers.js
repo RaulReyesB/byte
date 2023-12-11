@@ -5,8 +5,6 @@ import { google } from 'googleapis';
 import express from 'express';
 import passport from 'passport';
 //import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { request, response } from "express";
-import { check, validationResult } from "express-validator";
 import GoogleStrategy from 'passport-google-oauth20'
 import Persona from '../models/Persona.js';
 import Usuario from '../models/Usuario.js';

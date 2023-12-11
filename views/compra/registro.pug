@@ -1,0 +1,46 @@
+extends ../layout/index
+
+block content
+  h1.text-center.text-4xl.my-10.font-extrabold.text-azul-rey Byte
+    span.font-normal.text-lion Buss
+  h2.text-center.text-3xl.font-extrabold.text-raisin-black #{pagina}
+
+  // Tu formulario con un campo oculto para el número del asiento
+  div(class="flex mt-10")
+    div(class=" flex ml-10 border-solid border-4 h-auto")
+      form(action="/comprar/registro" method="post" class="p-6 bg-white rounded-md w-auto h-10 shadow-md")
+        h2(class="text-2xl font-bold text-center mb-6") Registro de Pasajero
+        div(class="mb-4")
+          label(for="nombre" class="block text-sm font-semibold text-gray-600 mb-1") Nombre del Pasajero
+          input(type="text" id="nombre" name="nombre" placeholder="Nombre" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
+        div(class="mb-4")
+          label(for="apellido" class="block text-sm font-semibold text-gray-600 mb-1") Apellido del Pasajero
+          input(type="text" id="apellido" name="apellido" placeholder="Apellido" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
+        input(type="hidden" name="asiento" value=numeroAsientoElegido)
+        h1(class="ml-20") Pasajero 
+        img(src="/public/img/asiento.png" alt="" class="w-10 h-10 ml-20 mt-5")
+        p(class="ml-10 mt-10")  Adulto, 
+          span(class="text-lg") asiento: #{asientoSeleccionado}
+    div(class="bg-white border-solid border-4 ml-4 border-azul-rey p-4 rounded-lg shadow-lg h-auto mb-8 sm:divide-y w-1/4")
+      div(class="px-4 py-4 sm:px-6")
+        p(class="text-center font-extrabold") Viaje de Ida
+        div(class="flex items-center space-x-4")
+          img(src='/public/img/logo2.png' class="w-20 h-20 mr-4")
+          div(class="flex flex-col")
+            span.font-bold Origen:
+            span= viaje.origen
+            span.font-bold Destino:
+            span= viaje.destino
+        div(class="flex flex-col mt-4 ")
+          span.font-bold Hora de Salida:
+          span= viaje.horarios[0].horario_salida 
+          span.font-bold Hora de Llegada:
+          span= viaje.horarios[0].horario_llegada
+            p(class="font-bold text-lg") Asiento Seleccionado:
+            p(class="text-lg") #{asientoSeleccionado}
+              div(class="w-ful bg-azul-rey h-2 mb-2")
+            div(class="text-lg h-20 bg-slate-500 font-semibold text-white text-center items-center justify-center ")
+              p| Total: $#{typeof parseFloat(viaje.  precio) === 'number' ? parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX 
+              p(class="bg-slate-500 text-start font-normal text-white mt-2 ")| Precios incluyen IVA
+              br
+            button(type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-10 mt-4") Completar Compra
