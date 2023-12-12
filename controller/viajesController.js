@@ -1,21 +1,14 @@
 import Viaje from '../models/Viaje.js';
+import Autobus from '../models/Autobus.js';
+import Asiento from '../models/Asiento.js';
 import { request, response } from "express";
 import { check } from "express-validator";
 import { validationResult } from "express-validator";
 import Result from "postcss/lib/result";
-
-const obtenerDetallesDelViajeDesdeBD = async (viajeId) => {
-  try {
-    // Utiliza tu modelo y las asociaciones definidas para obtener los detalles del viaje
-    const detallesViaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
-
-    // Aquí podrías realizar cualquier otro procesamiento necesario
-
-    return detallesViaje;
-  } catch (error) {
-    throw new Error('Error al obtener detalles del viaje desde la base de datos');
-  }
-};
+import { generateToken, generateJwt } from '../lib/tokens.js';
+import { compraBoleto } from '../lib/emails.js';
+import Boleto from '../models/Boleto.js';
+import QRCode from 'qrcode-svg';
 
 const viajes = (request, response) => {
   response.render('auth/viajes', {
@@ -67,16 +60,52 @@ const detalleViaje = async (request, response) => {
   }
 };
 
+
 const obtenerDetallesViaje = async (request, response) => {
   try {
     const viajeId = request.params.id;
+    const asientoSeleccionado = request.params.asiento;
 
-    // Aquí obtienes la información del viaje, incluyendo horarios si es necesario
+    // Obtén datos del viaje según el ID utilizando el modelo Viaje
     const viaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
 
-    // Renderiza la vista de detallesViaje y pasa los datos necesarios
+    // Log para verificar si el viaje y su autobús están definidos
+    //    console.log('Viaje:', viaje);
+
+    if (!viaje) {
+      response.status(404).render('error', {
+        errorMessage: 'No se encontró el viaje.',
+      });
+      return;
+    }
+
+    const autobusId = viaje.autobusId;
+
+    // Log para verificar el ID del autobús
+    //  console.log('Autobús ID:', autobusId);
+
+    // Intenta obtener el autobús asociado al viaje
+    const autobus = await Autobus.findByPk(autobusId);
+
+    // Log para verificar si el autobús está definido
+    //console.log('Autobús:', autobus);
+
+    if (!autobus) {
+      response.status(404).render('error', {
+        errorMessage: 'No se encontró el autobús asociado al viaje.',
+      });
+      return;
+    }
+    //console.log('Valor de asientoSeleccionado:', asientoSeleccionado);
+
+    // Obtén los asientos asociados al autobús del viaje
+    const asientos = await Asiento.findAll({ where: { autobusID: autobusId } });
+
+    // Renderiza la vista de detallesViaje y pasa los datos del viaje y asientos
     response.render('./viajes/detallesViaje.pug', {
       viaje,
+      autobus,
+      asientos,
       pagina: "Detalles del Viaje",
       showHeader: true,
       showFooter: true,
@@ -94,7 +123,8 @@ const registroBoleto = async (request, response) => {
   try {
     const viajeId = request.params.id;
     const asientoSeleccionado = request.body.asiento; // Modificación aquí
-    //console.log(asientoSeleccionado);
+
+    console.log(asientoSeleccionado);
 
     // Obtener datos del viaje según el ID utilizando el modelo Viaje
     const viaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
@@ -103,9 +133,79 @@ const registroBoleto = async (request, response) => {
       viaje,
       horarios: viaje.horarios,
       asientoSeleccionado,
-      pagina: "Registro del Boleto",
+      pagina: "Compra del Boleto",
       showHeader: true,
       showFooter: true,
+    });
+  } catch (error) {
+    console.error(error);
+    response.status(500).render('error', {
+      errorMessage: 'Error interno del servidor',
+    });
+  }
+};
+
+// Crear un boleto
+
+const crearBoleto = async (request, response) => {
+  console.log("El usuario está intentando crear un boleto en la base de datos");
+  const viajeId = request.params.id;
+
+  const viaje = await Viaje.findByPk(viajeId, { include: 'horarios' });
+
+  try {
+    // Obtener datos del formulario
+    const { nombre, correo1, asiento, viajeId } = request.body;
+
+    // Validaciones...
+
+    // Verificar si hay errores de validación
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.render("./compra/registro.pug", {
+        // ... (resto de tu código)
+      });
+    }
+
+    // Si no hay errores, continuamos con la creación del boleto
+    const token = generateToken();
+
+    // Crear el boleto en la base de datos
+    const boleto = await Boleto.create({
+      nombre,
+      correo1,
+      asiento,
+      viajeId,
+      token,
+      asientoId: asiento
+    });
+
+    // Generar el código QR con el token
+    const qrcode = new QRCode({
+      content: `https://th.bing.com/th/id/R.efdc97db81199c0a3d874f1ec615f51c?rik=vM486S33k4Afnw&pid=ImgRaw&r=0`,
+      padding: 4,
+      width: 150, // Ajusta el ancho según tus necesidades
+      height: 150,
+      color: "#000000",
+      background: "#ffffff",
+      ecl: "M", // Error correction level: L, M, Q, H
+    });
+
+    // Obtener el SVG del código QR
+    const svgQRCode = qrcode.svg();
+
+    // Enviar el correo de confirmación
+    compraBoleto({ nombre, correo1, token });
+
+    // Renderizar la página de mensaje de éxito con el código QR
+    response.render("./compra/boleto.pug", {
+      pagina: "Boleto",
+      showHeader: true,
+      showFooter: true,
+      viaje,
+      horarios: viaje.horarios,
+      asiento,
+      svgQRCode, // Pasar el SVG del código QR a la vista
     });
   } catch (error) {
     console.error(error);
@@ -119,6 +219,43 @@ const registroBoleto = async (request, response) => {
 
 
 
+const confirmarBoleto = async (request, response, next) => {
+  console.log("El usuario está intentando confirmar su boleto");
+  const { token } = request.params;
+
+  try {
+    // Verificar si el token existe y corresponde a un boleto
+    const boleto = await Boleto.findOne({ where: { token } });
+
+    if (!boleto) {
+      console.log('Este token no es válido para un boleto');
+      return response.render("templates/message.pug", {
+        pagina: "Error en el proceso de confirmación.",
+        notificationTitle: "El token es inválido",
+        notificationMessage: "El token proporcionado no corresponde a un boleto válido.",
+        type: "Warning"
+      });
+    }
+
+    // Actualizar el estado de confirmación en la base de datos
+    boleto.confirmado = true;
+    // Eliminar el token
+    await boleto.save();
+
+    // Renderizar la página de éxito
+    response.render("templates/message.pug", {
+      pagina: "¡Éxito!",
+      notificationTitle: "Boleto confirmado",
+      notificationMessage: "El boleto ha sido confirmado exitosamente.",
+      type: "Info"
+    });
+  } catch (error) {
+    console.error(error);
+    response.status(500).render('error', {
+      errorMessage: 'Error interno del servidor',
+    });
+  }
+};
 
 export {
   viajes,
@@ -126,6 +263,7 @@ export {
   precios,
   detalleViaje,
   obtenerDetallesViaje,
-  registroBoleto
-
+  registroBoleto,
+  confirmarBoleto,
+  crearBoleto
 } 

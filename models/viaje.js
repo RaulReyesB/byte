@@ -35,6 +35,10 @@ const viaje = db.define("tbc_viaje", {
     type: DataTypes.STRING,
     allowNull: true, // Ajusta según tus necesidades
   },
+  autobusId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 
 });
 

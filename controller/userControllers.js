@@ -1,4 +1,5 @@
 import path from 'path';
+import { check,validationResult  } from 'express-validator';
 import fs from 'fs/promises';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
@@ -172,7 +173,6 @@ const insertarUsuario = async (request, response) => {
     console.log(`Se a creado un usuario con id ${lastId}`)
     // Validation duplicate user
     const userExists = await Usuario.findOne({ where: { correoElectronico: correoElectronico } });
-
 
     // Validación de edad del usuario
 

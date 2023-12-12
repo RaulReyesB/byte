@@ -1,0 +1,51 @@
+extends ../layout/index
+
+block content
+  div(id="pdf", class="bg-white border-solid flex items-center justify-center border-4 mt-10 border-azul-rey p-4 rounded-lg shadow-lg h-full w-1/3 ml-80 mr-80") 
+
+    div(class="px-4 py-4")
+      p(class="text-center font-extrabold") Viaje de Ida
+      div(class="flex items-center")
+        img(src='/public/img/logo2.png' class="w-20 h-20 mr-4")
+        div(class="flex flex-col")
+          span.font-bold Origen:
+          span= viaje.origen
+          span.font-bold Destino:
+          span= viaje.destino
+        svg !{svgQRCode}
+      div(class="flex flex-col mt-4 ")
+        span.font-bold Hora de Salida:
+        span= viaje.horarios[0].horario_salida 
+        span.font-bold Hora de Llegada:
+        span= viaje.horarios[0].horario_llegada
+          p(class="font-bold text-lg") Asiento Seleccionado:
+          p(class="text-lg")= asiento
+            div(class="w-ful bg-azul-rey h-2 mb-2")
+          div(class="text-lg h-20 bg-slate-500 font-semibold text-white text-center items-center justify-center ")
+            p| Total: $#{typeof parseFloat(viaje.precio) === 'number' ? parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX 
+            p(class="bg-slate-500 text-start font-normal text-white mt-2 ")| Precios incluyen IVA
+          button(id="downloadBtn" class="bg-green-500 text-white px-4 py-2 mt-4" onclick="downloadPDF()") Descargar PDF
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js")
+
+  script.
+    function downloadPDF() {
+      var element = document.getElementById("pdf");
+      var opt = {
+        margin: 0,
+        filename: "boleto.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      html2pdf().from(element).set(opt).outputPdf().then(function (pdf) {
+        var blob = new Blob([pdf], { type: "application/pdf" });
+        var link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "boleto.pdf";
+        link.click();
+      });
+    }

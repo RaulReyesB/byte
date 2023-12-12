@@ -1,5 +1,5 @@
 import express, { Router, request, response } from 'express'
-import { viajes, horarios, precios, detalleViaje, obtenerDetallesViaje, registroBoleto   } from '../controller/viajesController.js';
+import { viajes, horarios, precios, detalleViaje, obtenerDetallesViaje, registroBoleto, confirmarBoleto,crearBoleto   } from '../controller/viajesController.js';
 import protegerRuta from '../middleware/protegerRutas.js';
 
 const router = express.Router();
@@ -13,6 +13,14 @@ router.get('/detalle/:id', detalleViaje);
 
 router.get('/detallesViaje/:id', obtenerDetallesViaje);
 
-router.post('/registro/:id/:asiento', registroBoleto);
+router.post('/registro/:id', registroBoleto);
+
+router.post('/compra/:id', crearBoleto);
+
+router.get("/confirm/:token", confirmarBoleto)
+
+//router.post('/registro/:id/:asientoSeleccionado', );
+
+
 
 export default router;

@@ -4,23 +4,25 @@ block content
   h1.text-center.text-4xl.my-10.font-extrabold.text-azul-rey Byte
     span.font-normal.text-lion Buss
   h2.text-center.text-3xl.font-extrabold.text-raisin-black #{pagina}
+  div(class="flex mt-8")
+    div(class=" flex ml-32 border-solid border-4 h-96 ")
+      form(action=`/viajes/compra/${viaje.id}` method="post" class="p-6 bg-white rounded-md w-auto shadow-md")
+        div(class="flex ")
+          div(class="text-2xl font-bold text-center border-r-3 ") Registro de Pasajero
+            div(class=" m-10 ")
+              label(for="nombre" class="block text-sm font-semibold text-gray-600 mb-1") Nombre(s) del Pasajero
+              input(type="text" id="nombre" name="nombre" placeholder="Nombre" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 mb-10")
+              label(for="apellido" class="block text-sm font-semibold text-gray-600 mb-1") Apellido(s) del Pasajero
+              input(type="text" id="apellido" name="apellido" placeholder="Apellido" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
+          div(class="text-2xl font-bold text-center border-l-2") Enviar boletos a:
+            div(class=" m-10 ")
+              label(for="nombre" class="block text-sm font-semibold text-gray-600 mb-1") Correo electronico que le llegaran los boletos:
+              input(type="email" id="correo1" name="correo1" placeholder="usuario@dominio" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300 mb-10")
+              label(for="apellido" class="block text-sm font-semibold text-gray-600 mb-1") Confirma el correo:
+              input(type="email" id="correo2" name="correo2" placeholder="Confirma correo" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
+              input(type="hidden" name="asiento" value=asientoSeleccionado)
+              button(type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-10 mt-4") Completar Compra
 
-  // Tu formulario con un campo oculto para el número del asiento
-  div(class="flex mt-10")
-    div(class=" flex ml-10 border-solid border-4 h-auto")
-      form(action="/comprar/registro" method="post" class="p-6 bg-white rounded-md w-auto h-10 shadow-md")
-        h2(class="text-2xl font-bold text-center mb-6") Registro de Pasajero
-        div(class="mb-4")
-          label(for="nombre" class="block text-sm font-semibold text-gray-600 mb-1") Nombre del Pasajero
-          input(type="text" id="nombre" name="nombre" placeholder="Nombre" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
-        div(class="mb-4")
-          label(for="apellido" class="block text-sm font-semibold text-gray-600 mb-1") Apellido del Pasajero
-          input(type="text" id="apellido" name="apellido" placeholder="Apellido" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300")
-        input(type="hidden" name="asiento" value=numeroAsientoElegido)
-        h1(class="ml-20") Pasajero 
-        img(src="/public/img/asiento.png" alt="" class="w-10 h-10 ml-20 mt-5")
-        p(class="ml-10 mt-10")  Adulto, 
-          span(class="text-lg") asiento: #{asientoSeleccionado}
     div(class="bg-white border-solid border-4 ml-4 border-azul-rey p-4 rounded-lg shadow-lg h-auto mb-8 sm:divide-y w-1/4")
       div(class="px-4 py-4 sm:px-6")
         p(class="text-center font-extrabold") Viaje de Ida
@@ -40,7 +42,6 @@ block content
             p(class="text-lg") #{asientoSeleccionado}
               div(class="w-ful bg-azul-rey h-2 mb-2")
             div(class="text-lg h-20 bg-slate-500 font-semibold text-white text-center items-center justify-center ")
-              p| Total: $#{typeof parseFloat(viaje.  precio) === 'number' ? parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX 
+              p| Total: $#{typeof parseFloat(viaje.precio) === 'number' ? parseFloat(viaje.precio).toFixed(2) : 'Precio no válido'} MX 
               p(class="bg-slate-500 text-start font-normal text-white mt-2 ")| Precios incluyen IVA
               br
-            button(type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded ml-10 mt-4") Completar Compra
