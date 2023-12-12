@@ -27,7 +27,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 const app = express();
-
+console.log("Hola")
 // Implementacion de la bd atravez de un trycatch
 try {
   await db.authenticate();
