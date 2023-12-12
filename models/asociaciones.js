@@ -1,6 +1,6 @@
 // Asociaciones.js
-import TbbAutobus from './autobus.js';
-import TbbAsiento from './asiento.js';
+import Autobus from './autobus.js';
+import Asiento from './asiento.js';
 import Persona from './Persona.js';
 import TbbEmpleado from './empleado.js';
 import TbbRuta from './ruta.js';
@@ -15,7 +15,8 @@ TbbEmpleado.belongsTo(Persona, { foreignKey: 'personaId', targetKey: 'id' });
 Horario.belongsTo(Viaje, { foreignKey: 'viajeId' });
 Viaje.hasMany(Horario, { as: 'horarios', foreignKey: 'viajeId' });
 
-TbbAsiento.belongsTo(TbbAutobus, { foreignKey: 'autobusID', targetKey: 'id' });
+Asiento.belongsTo(Autobus, { foreignKey: 'autobusID', targetKey: 'id' });
+
 
 Persona.hasOne(Usuario, { foreignKey: 'Persona_ID'});
 

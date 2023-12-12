@@ -10,8 +10,8 @@ import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './config/db.js';// Instancuamos el modulo express de la libreria para definir el servidor que atendera las peticiones 
 import Usuario from "./models/Usuario.js";
-import TbbAsiento from "./models/asiento.js";
-import TbbAutobus from "./models/autobus.js";
+import Asiento from "./models/asiento.js";
+import Autobus from "./models/autobus.js";
 import TbbEmpleado from "./models/empleado.js";
 import TbbItinerario from "./models/itinerario.js";
 import Persona from "./models/Persona.js";

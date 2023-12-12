@@ -3,8 +3,7 @@ import { DataTypes } from "sequelize";
 import Sequelize from "sequelize"; // Elemento del ORM que permite definir los tipos de datos de las columnas del "OBJETO".
 import db from '../config/db.js'; // Importa la instancia de DataTypes ya configurada.
 
-
-const TbbAutobus = db.define("tbb_autobus", {
+const Autobus = db.define("tbb_autobus", {
     capacidad: {
       type: DataTypes.INTEGER, // Tipo de datos para la capacidad (entero)
       allowNull: false, // La capacidad no puede ser nula
@@ -35,4 +34,6 @@ const TbbAutobus = db.define("tbb_autobus", {
       defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
   });
-  export default TbbAutobus;
+
+
+  export default Autobus;
